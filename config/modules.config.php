@@ -15,5 +15,6 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
     'Application',
+    'Admin',
     'WeChat',
 ];
