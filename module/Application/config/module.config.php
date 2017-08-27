@@ -67,6 +67,17 @@ return [
         ],
     ],
 
+    'controller_plugins' => [
+        'factories' => [
+            Controller\Plugin\AppConfigPlugin::class => Controller\Plugin\Factory\AppConfigPluginFactory::class,
+            Controller\Plugin\AppLoggerPlugin::class => Controller\Plugin\Factory\AppLoggerPluginFactory::class,
+        ],
+        'aliases' => [
+            'appConfig' => Controller\Plugin\AppConfigPlugin::class,
+            'appLogger' => Controller\Plugin\AppLoggerPlugin::class,
+        ],
+    ],
+
 
     'view_manager' => [
         'display_not_found_reason' => true,

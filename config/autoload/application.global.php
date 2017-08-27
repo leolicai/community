@@ -8,6 +8,23 @@
 
 return [
 
+    'logger' => [
+        'writers' => [
+            'default' => [
+                'options' => [
+                    'stream' => __DIR__ . '/../../data/log/php-log-' . date('Ymd') . '.txt',
+                ],
+                'filters' => [
+                    'priority' => [
+                        'options' => [
+                            'priority' => 7,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+
     'session_config' => [
         'cookie_lifetime' => 3600 * 24, // 1hour
         'gc_maxlifetime' => 60 * 60 * 24 * 30, // 30days
