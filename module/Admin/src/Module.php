@@ -43,18 +43,14 @@ class Module
         $serviceManager = $event->getApplication()->getServiceManager();
         $serviceManager->get(SessionManager::class); //Init session manager
 
-        //$logger = $serviceManager->get('AppLogger');
-
-        $viewModel = $event->getViewModel();
+        $logger = $serviceManager->get('AppLogger');
 
         $controller = $event->getRouteMatch()->getParam('controller', null);
+        $logger->info("dispatch controller: " . $controller . ' template: '. $event->getViewModel()->getTemplate());
         if($controller == IndexController::class) { // Allow all access
-            $viewModel->setTemplate('layout/admin_simple');
             return ;
         }
 
-        // Set module default template
-        $viewModel->setTemplate('layout/admin_layout');
     }
 
 

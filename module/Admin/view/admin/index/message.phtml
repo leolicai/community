@@ -3,7 +3,7 @@
 
 $this->headTitle('信息提示');
 
-if($data->delay > 0) {
+if($data->delay > 0 && (!empty($data->title) && !empty($data->url))) {
 
     $this->inlineScript()->captureStart();
     echo <<<JS
@@ -27,9 +27,41 @@ JS;
 
 }
 
+$this->inlineScript()->captureStart();
+echo <<<JS
+function globalFuncMoveToCentered()
+{
+    var ww = $(window).width();
+    var wh = $(window).height();
+
+    var dw = $("#centered_container").width();
+    var dh = $("#centered_container").height();
+
+    var left = 0;
+    var top  = 0;
+    if(ww > dw) {
+        left = (ww - dw) / 2;
+    }
+    if(wh > dh) {
+        top = ((wh - dh) / 2) * 0.8;
+    }
+
+    $("#centered_container").css({"left": left, "top": top});
+
+}
+
+$(function(){
+    globalFuncMoveToCentered();
+    $(window).resize(function(){
+        globalFuncMoveToCentered();
+    });
+});
+JS;
+$this->inlineScript()->captureEnd();
+
 ?>
 
-
+<pre><?php print_r($data); ?></pre>
 <div id="centered_container" class="centered">
     <div class="jumbotron message-container">
         <h3><?php echo $data->topic; ?></h3>

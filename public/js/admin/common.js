@@ -50,6 +50,7 @@ $(function(){
     });
 
     //Ajax request top message menu.
+    /**
     var messageMenuUrl = $("#topMenuContainer").data("message");
     $.get(messageMenuUrl, function (dt) {
         var html = buildMessageMenu(dt);
@@ -57,5 +58,6 @@ $(function(){
             $(html).prependTo($("#topMenuContainer"));
         }
     }, "json");
+    //*/
 });
 

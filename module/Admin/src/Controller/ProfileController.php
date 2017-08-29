@@ -33,6 +33,7 @@ class ProfileController extends AdminBaseController
         }
 
         $this->addResultData('adminer', $adminer);
+        $this->appLogger('action end');
     }
 
 
@@ -99,6 +100,9 @@ class ProfileController extends AdminBaseController
                 $adminerManager->getEntityManager()->persist($adminer);
                 $adminerManager->getEntityManager()->flush();
 
+                $this->setResultData(111, 'Updated profile');
+
+                $this->appLogger('Updated profile go show result');
                 return $this->go(
                     '资料已更新',
                     '您的个人资料已经更新!',

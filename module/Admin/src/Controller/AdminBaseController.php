@@ -13,6 +13,7 @@ namespace Admin\Controller;
 use Admin\Service\AdminerManager;
 use Admin\Service\AuthService;
 use Application\Controller\AppBaseController;
+use Zend\Mvc\MvcEvent;
 
 
 /**
@@ -23,6 +24,13 @@ use Application\Controller\AppBaseController;
  */
 class AdminBaseController extends AppBaseController
 {
+
+    public function onDispatch(MvcEvent $e)
+    {
+        $result = parent::onDispatch($e);
+        $e->getViewModel()->setTemplate('layout/admin_layout');
+        return $result;
+    }
 
     /**
      * @return AdminerManager
@@ -46,13 +54,26 @@ class AdminBaseController extends AppBaseController
      *
      * @param string $topic
      * @param string $content
-     * @param string $url
+     * @param string $href
      * @param string $title
      * @param int $delay
      * @return mixed
      */
-    protected function go($topic = 'Message', $content = '...', $url = '/', $title = '返回', $delay = 3)
+    protected function go($topic = 'Message', $content = '...', $href = '', $title = '返回', $delay = 3)
     {
-        return $this->appAdminMessage()->show($topic, $content, $url, $title, $delay);
+        return $this->forward()->dispatch(
+            IndexController::class,
+            [
+                'controller' => IndexController::class,
+                'action' => 'message',
+                'topic' => $topic,
+                'content' => $content,
+                'url' => $href,
+                'title' => $title,
+                'delay' => $delay,
+            ]
+        );
+
+        //return $this->appAdminMessage()->show($topic, $content, $href, $title, $delay);
     }
 }

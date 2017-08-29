@@ -81,8 +81,19 @@
 </div>
 
 <!-- Scripts -->
+<?php
+$this->inlineScript()->captureStart();
+echo <<<JS
+$(function(){
+    $("form").submit(function () { // forbid re-submit
+        $(":submit", this).attr("disabled","disabled");
+    });
+});
+JS;
+$this->inlineScript()->captureEnd();
+?>
+
 <?php echo $this->headScript()
-    ->prependFile($this->basePath('js/admin/common.js'))
     ->prependFile($this->basePath('open-source-assets/sb-admin-2/js/sb-admin-2.js'))
     ->prependFile($this->basePath('open-source-assets/metisMenu/metisMenu.min.js'))
     ->prependFile($this->basePath('open-source-assets/bootstrap-3.3.7-dist/js/bootstrap.min.js'))
