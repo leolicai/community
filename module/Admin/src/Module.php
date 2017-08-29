@@ -41,13 +41,11 @@ class Module
     {
 
         $serviceManager = $event->getApplication()->getServiceManager();
-        //$serviceManager->get(SessionManager::class); //Init session manager
+        $serviceManager->get(SessionManager::class); //Init session manager
+
+        //$logger = $serviceManager->get('AppLogger');
 
         $viewModel = $event->getViewModel();
-
-        $appConfig = $serviceManager->get('ApplicationConfig');
-        $appEnv = isset($appConfig['application']['env']) ? $appConfig['application']['env'] : 'development';
-        $viewModel->setVariable('appEnv', $appEnv);
 
         $controller = $event->getRouteMatch()->getParam('controller', null);
         if($controller == IndexController::class) { // Allow all access

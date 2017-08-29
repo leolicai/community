@@ -168,4 +168,215 @@ class Adminer
         $this->adminGroups = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getAdminID()
+    {
+        return $this->adminID;
+    }
+
+    /**
+     * @param string $adminID
+     */
+    public function setAdminID($adminID)
+    {
+        $this->adminID = $adminID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmail()
+    {
+        return $this->adminEmail;
+    }
+
+    /**
+     * @param string $adminEmail
+     */
+    public function setAdminEmail($adminEmail)
+    {
+        $this->adminEmail = $adminEmail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminPasswd()
+    {
+        return $this->adminPasswd;
+    }
+
+    /**
+     * @param string $adminPasswd
+     */
+    public function setAdminPasswd($adminPasswd)
+    {
+        $this->adminPasswd = $adminPasswd;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminDefault()
+    {
+        return $this->adminDefault;
+    }
+
+    /**
+     * @param int $adminDefault
+     */
+    public function setAdminDefault($adminDefault)
+    {
+        $this->adminDefault = $adminDefault;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminStatus()
+    {
+        return $this->adminStatus;
+    }
+
+    /**
+     * @param int $adminStatus
+     */
+    public function setAdminStatus($adminStatus)
+    {
+        $this->adminStatus = $adminStatus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminLocked()
+    {
+        return $this->adminLocked;
+    }
+
+    /**
+     * @param int $adminLocked
+     */
+    public function setAdminLocked($adminLocked)
+    {
+        $this->adminLocked = $adminLocked;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminActivated()
+    {
+        return $this->adminActivated;
+    }
+
+    /**
+     * @param int $adminActivated
+     */
+    public function setAdminActivated($adminActivated)
+    {
+        $this->adminActivated = $adminActivated;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminLevel()
+    {
+        return $this->adminLevel;
+    }
+
+    /**
+     * @param int $adminLevel
+     */
+    public function setAdminLevel($adminLevel)
+    {
+        $this->adminLevel = $adminLevel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminName()
+    {
+        return $this->adminName;
+    }
+
+    /**
+     * @param string $adminName
+     */
+    public function setAdminName($adminName)
+    {
+        $this->adminName = $adminName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminActiveCode()
+    {
+        return $this->adminActiveCode;
+    }
+
+    /**
+     * @param string $adminActiveCode
+     */
+    public function setAdminActiveCode($adminActiveCode)
+    {
+        $this->adminActiveCode = $adminActiveCode;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAdminExpired()
+    {
+        return $this->adminExpired;
+    }
+
+    /**
+     * @param \DateTime $adminExpired
+     */
+    public function setAdminExpired($adminExpired)
+    {
+        $this->adminExpired = $adminExpired;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAdminCreated()
+    {
+        return $this->adminCreated;
+    }
+
+    /**
+     * @param \DateTime $adminCreated
+     */
+    public function setAdminCreated($adminCreated)
+    {
+        $this->adminCreated = $adminCreated;
+    }
+
+    /**
+     * @return Group[]|ArrayCollection
+     */
+    public function getAdminGroups()
+    {
+        return $this->adminGroups;
+    }
+
+    /**
+     * @param Group[]|ArrayCollection $adminGroups
+     */
+    public function setAdminGroups($adminGroups)
+    {
+        $this->adminGroups = $adminGroups;
+    }
+
+
+
+
 }

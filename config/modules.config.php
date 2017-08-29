@@ -11,6 +11,7 @@ return [
     'Zend\Router',
     'Zend\Session',
     'Zend\Validator',
+    'Zend\Form',
     'Zend\I18n',
     'DoctrineModule',
     'DoctrineORMModule',

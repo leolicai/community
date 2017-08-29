@@ -27,9 +27,11 @@ class Module
      */
     public function onBootstrap(MvcEvent $event)
     {
-
+        // Register listener
         $sharedEventManager = $event->getApplication()->getEventManager()->getSharedManager();
         $sharedEventManager->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH, [$this, 'onDispatchListener'], 100);
+        //$sharedEventManager->attach(\Zend\Mvc\Application::class, MvcEvent::EVENT_DISPATCH, [$this, 'onGlobalDispatchListener'], 0);
+        $sharedEventManager->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, [$this, 'onGlobalDispatchListener'], 0);
     }
 
 
@@ -38,13 +40,79 @@ class Module
      */
     public function onDispatchListener(MvcEvent $event)
     {
+        //$serviceManager = $event->getApplication()->getServiceManager();
+        //$logger = $serviceManager->get('AppLogger');
+        //$logger->info('This is application module dispatch listener');
+    }
+
+
+    /**
+     * Application global listener
+     *
+     * @param MvcEvent $event
+     * @return mixed
+     */
+    public function onGlobalDispatchListener(MvcEvent $event)
+    {
         $serviceManager = $event->getApplication()->getServiceManager();
+        //$logger = $serviceManager->get('AppLogger');
+        //$logger->info('The is a global render listener');
 
-        $viewModel = $event->getViewModel();
-
+        $resultData = $event->getTarget()->getResultData();
         $appConfig = $serviceManager->get('ApplicationConfig');
-        $appEnv = isset($appConfig['application']['env']) ? $appConfig['application']['env'] : 'development';
-        $viewModel->setVariable('appEnv', $appEnv);
+        $resultData['env'] = isset($appConfig['application']['env']) ? $appConfig['application']['env'] : 'development';
+
+        //$logger->debug(json_encode($resultData));
+
+        $request = $event->getRequest();
+        if($request instanceof \Zend\Http\Request) {
+            $headerAccept = $request->getHeader('Accept');
+            if ($headerAccept) {
+
+                $fieldValue = $headerAccept->getFieldValue();
+                //$logger->debug('Accept string:' . $fieldValue);
+
+                $fieldValues = explode(',', $fieldValue);
+                $firstFieldValue = array_shift($fieldValues);
+
+                $acceptValue = @strtolower(str_replace(' ', '', $firstFieldValue));
+                //$logger->debug("accept response type:" . $acceptValue);
+
+
+                if ('application/json' == $acceptValue) {
+                    $headerContentType = new \Zend\Http\Header\ContentType();
+                    $headerContentType->setMediaType('application/json');
+                    $headerContentType->setCharset('UTF-8');
+
+                    $responseHeaders = new \Zend\Http\Headers();
+                    $responseHeaders->addHeader($headerContentType);
+
+                    $response = $event->getResponse();
+                    if (!$response instanceof \Zend\Http\Response) {
+                        $response = new \Zend\Http\Response();
+                    }
+                    $response->setHeaders($responseHeaders);
+                    $response->setContent(json_encode($resultData, JSON_UNESCAPED_UNICODE));
+
+                    $event->setResult($response);
+                    return ;
+                }
+
+                if ('text/html' == $acceptValue || 'text/plain' == $acceptValue) {
+
+                    $event->getViewModel()->setVariables($resultData);
+                    foreach($event->getViewModel()->getChildren() as $child) {
+                        if ($child instanceof \Zend\View\Model\ViewModel) {
+                            $child->setVariables($resultData);
+                        }
+                    }
+
+                    return ;
+                }
+            }
+        }
+
+        return $event->setResult($event->getResponse());
     }
 
 }

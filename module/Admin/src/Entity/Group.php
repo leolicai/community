@@ -93,4 +93,102 @@ class Group
         $this->groupAdminers = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getGroupID()
+    {
+        return $this->groupID;
+    }
+
+    /**
+     * @param string $groupID
+     */
+    public function setGroupID($groupID)
+    {
+        $this->groupID = $groupID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupName()
+    {
+        return $this->groupName;
+    }
+
+    /**
+     * @param string $groupName
+     */
+    public function setGroupName($groupName)
+    {
+        $this->groupName = $groupName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGroupDefault()
+    {
+        return $this->groupDefault;
+    }
+
+    /**
+     * @param int $groupDefault
+     */
+    public function setGroupDefault($groupDefault)
+    {
+        $this->groupDefault = $groupDefault;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGroupStatus()
+    {
+        return $this->groupStatus;
+    }
+
+    /**
+     * @param int $groupStatus
+     */
+    public function setGroupStatus($groupStatus)
+    {
+        $this->groupStatus = $groupStatus;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getGroupCreated()
+    {
+        return $this->groupCreated;
+    }
+
+    /**
+     * @param \DateTime $groupCreated
+     */
+    public function setGroupCreated($groupCreated)
+    {
+        $this->groupCreated = $groupCreated;
+    }
+
+    /**
+     * @return Adminer[]|ArrayCollection
+     */
+    public function getGroupAdminers()
+    {
+        return $this->groupAdminers;
+    }
+
+    /**
+     * @param Adminer[]|ArrayCollection $groupAdminers
+     */
+    public function setGroupAdminers($groupAdminers)
+    {
+        $this->groupAdminers = $groupAdminers;
+    }
+
+
+
 }

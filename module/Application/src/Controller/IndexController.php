@@ -9,15 +9,15 @@
 namespace Application\Controller;
 
 
-use Zend\View\Model\ViewModel;
-
 
 class IndexController extends AppBaseController
 {
 
     public function indexAction()
     {
-        return new ViewModel();
+
+
+        $this->addResultData('name', 'Baby!');
     }
 
 }

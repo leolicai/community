@@ -10,7 +10,7 @@
         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
     ?>
 
-    <?php if('development' == @$appEnv) { ?>
+    <?php if('development' == @$env) { ?>
         <meta http-equiv="pragma" content="no-cache">
         <meta http-equiv="cache-control" content="no-cache">
         <meta http-equiv="expires" content="0">
@@ -19,7 +19,7 @@
 
     <!-- Le styles -->
     <?php echo $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/favicon.ico'])
-        //->prependStylesheet($this->basePath('css/admin/style.css'))
+        ->prependStylesheet($this->basePath('css/admin/style.css'))
         ->prependStylesheet($this->basePath('open-source-assets/font-awesome-4.7.0/css/font-awesome.min.css'))
         ->prependStylesheet($this->basePath('open-source-assets/bootstrap-3.3.7-dist/css/bootstrap.min.css'));
     ?>
@@ -32,7 +32,7 @@
 
 <!-- Scripts -->
 <?php echo $this->headScript()
-    //->prependFile($this->basePath('js/admin/script.js'))
+    ->prependFile($this->basePath('js/admin/script.js'))
     ->prependFile($this->basePath('open-source-assets/bootstrap-3.3.7-dist/js/bootstrap.min.js'))
     ->prependFile($this->basePath('open-source-assets/jquery-3.1.1/jquery-3.1.1.min.js'));
 ?>

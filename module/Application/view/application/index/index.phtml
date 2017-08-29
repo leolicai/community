@@ -1,1 +1,9 @@
-<h2>Hello, Baby!</h2>
+<h2>Hello:</h2>
+
+<?php
+if (!isset($data) || !$data instanceof \stdClass) {
+    echo 'No var passed';
+} else {
+    echo $data->name;
+}
+?>

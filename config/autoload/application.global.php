@@ -12,7 +12,7 @@ return [
         'writers' => [
             'default' => [
                 'options' => [
-                    'stream' => __DIR__ . '/../../data/log/php-log-' . date('Ymd') . '.txt',
+                    'stream' => __DIR__ . '/../../data/logs/php-log-' . date('Ymd') . '.txt',
                 ],
                 'filters' => [
                     'priority' => [
