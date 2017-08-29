@@ -23,7 +23,33 @@ class AdminerManager
 
     public function __construct(EntityManager $entityManager)
     {
+        $this->setEntityManager($entityManager);
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
         $this->entityManager = $entityManager;
+    }
+
+
+    /**
+     * @param $adminID
+     * @return Adminer|null|object
+     */
+    public function getAdminerByID($adminID)
+    {
+        return $this->entityManager->getRepository(Adminer::class)->find($adminID);
     }
 
 

@@ -89,6 +89,7 @@ class IndexController extends AdminBaseController
      */
     public function messageAction()
     {
+        //$this->appLogger('topic:' . $this->params()->fromRoute('topic', '提示信息'));
         $this->addResultData('topic', $this->params()->fromRoute('topic', '提示信息'));
         $this->addResultData('content', $this->params()->fromRoute('content', '...'));
         $this->addResultData('url', $this->params()->fromRoute('url', '#'));

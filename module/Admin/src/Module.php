@@ -54,7 +54,7 @@ class Module
         }
 
         // Set module default template
-        //$viewModel->setTemplate('layout/admin_layout');
+        $viewModel->setTemplate('layout/admin_layout');
     }
 
 

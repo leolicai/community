@@ -21,6 +21,7 @@ return [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\DashboardController::class => InvokableFactory::class,
+            Controller\ProfileController::class => InvokableFactory::class,
         ],
     ],
 
@@ -38,6 +39,8 @@ return [
         'factories' => [
             Service\AuthAdapter::class => InvokableFactory::class,
             Service\AuthService::class => Service\Factory\AuthServiceFactory::class,
+
+            Service\MenuManager::class => Service\Factory\MenuManagerFactory::class,
 
             Service\AdminerManager::class => EntityManagerFactory::class,
         ],
@@ -61,6 +64,17 @@ return [
         ],
     ],
 
+
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\TopRightMenu::class => View\Helper\Factory\MenuFactory::class,
+            View\Helper\PageTitleBar::class => InvokableFactory::class,
+        ],
+        'aliases' => [
+            'topRightMenu' => View\Helper\TopRightMenu::class,
+            'pageTitleBar' => View\Helper\PageTitleBar::class,
+        ],
+    ],
 
 
     'view_manager' => [
@@ -115,6 +129,22 @@ return [
                             ],
                             'defaults' => [
                                 'controller' => Controller\DashboardController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+
+                    'profile' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'profile[/:action[/:key]][:suffix]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_\-]+',
+                                'key' => '[a-zA-Z0-9_\-]+',
+                                'suffix' => '(/|.html)',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\ProfileController::class,
                                 'action' => 'index',
                             ],
                         ],
