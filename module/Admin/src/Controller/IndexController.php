@@ -13,20 +13,10 @@ namespace Admin\Controller;
 use Admin\Exception\RuntimeException;
 use Admin\Form\LoginForm;
 use Admin\Service\AuthAdapter;
-use Zend\Mvc\MvcEvent;
 
 
 class IndexController extends AdminBaseController
 {
-
-    public function onDispatch(MvcEvent $e)
-    {
-        $result = parent::onDispatch($e);
-
-        $e->getViewModel()->setTemplate('layout/admin_simple');
-
-        return $result;
-    }
 
     /**
      * Page switch
@@ -51,12 +41,10 @@ class IndexController extends AdminBaseController
         if ($authService->hasIdentity()) {
             $authService->clearIdentity();
         }
-        return $this->go(
-            '安全退出',
-            '您的账号已经安全的退出系统, 再见!',
-            '',
-            '',
-            10000);
+
+        $this->go('安全退出', '您的账号已经安全的退出系统, 再见!', '', '', 0);
+
+        return $this->layout()->setTerminal(true);
     }
 
 
@@ -88,15 +76,14 @@ class IndexController extends AdminBaseController
 
                 $result = $authService->authenticate();
                 if ($result->getCode() != AuthAdapter::SUCCESS) {
-                    $this->setResultData($result->getCode(), 'Failure');
+                    $this->setResultCodeMessage($result->getCode(), 'Failure');
                 } else {
-                    return $this->go(
+                    $this->go(
                         '欢迎登录',
                         '欢迎你再次登录管理中心!',
-                        $this->url()->fromRoute('admin'),
-                        '返回',
-                        1000
+                        $this->url()->fromRoute('admin')
                     );
+                    return $this->layout()->setTerminal(true);
                 }
             }
         }
@@ -110,13 +97,7 @@ class IndexController extends AdminBaseController
      */
     public function messageAction()
     {
-        $this->setResultData(2222, 'Show message');
-        $this->appLogger('topic:' . $this->params()->fromRoute('topic', '提示信息'));
-        $this->addResultData('topic', $this->params()->fromRoute('topic', '提示信息'));
-        $this->addResultData('content', $this->params()->fromRoute('content', '...'));
-        $this->addResultData('url', $this->params()->fromRoute('url', '#'));
-        $this->addResultData('title', $this->params()->fromRoute('title', '返回'));
-        $this->addResultData('delay', $this->params()->fromRoute('delay', 0));
+        //TODO
     }
 
 }

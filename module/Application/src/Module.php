@@ -99,13 +99,11 @@ class Module
                 }
 
                 if ('text/html' == $acceptValue || 'text/plain' == $acceptValue) {
-                    $logger->info("set var to view: " . $resultData['message']);
+
                     $event->getViewModel()->setVariables($resultData);
-                    $logger->info('root template: ' . $event->getViewModel()->getTemplate());
                     foreach($event->getViewModel()->getChildren() as $child) {
                         if ($child instanceof \Zend\View\Model\ViewModel) {
                             $child->setVariables($resultData);
-                            $logger->info('child template: ' . $child->getTemplate() . PHP_EOL. json_encode($resultData));
                         }
                     }
 

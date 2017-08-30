@@ -33,7 +33,6 @@ class ProfileController extends AdminBaseController
         }
 
         $this->addResultData('adminer', $adminer);
-        $this->appLogger('action end');
     }
 
 
@@ -64,11 +63,13 @@ class ProfileController extends AdminBaseController
                 $adminerManager->getEntityManager()->persist($adminer);
                 $adminerManager->getEntityManager()->flush();
 
-                return $this->go(
+                $this->go(
                     '密码已更新',
                     '您的密码已经更新, 请在下次使用新的密码登入!',
                     $this->url()->fromRoute('admin/profile', ['suffix' => '.html'])
                 );
+
+                return $this->layout()->setTerminal(true);
             }
         }
 
@@ -100,14 +101,13 @@ class ProfileController extends AdminBaseController
                 $adminerManager->getEntityManager()->persist($adminer);
                 $adminerManager->getEntityManager()->flush();
 
-                $this->setResultData(111, 'Updated profile');
-
-                $this->appLogger('Updated profile go show result');
-                return $this->go(
+                $this->go(
                     '资料已更新',
                     '您的个人资料已经更新!',
-                    $this->url()->fromRoute('admin/profile')
+                    $this->url()->fromRoute('admin/profile', ['suffix' => '.html'])
                 );
+
+                return $this->layout()->setTerminal(true);
             }
         }
 

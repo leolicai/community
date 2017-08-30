@@ -29,9 +29,6 @@ class AppBaseController extends AbstractActionController
 
     public function __construct()
     {
-        $this->resultData = [];
-        $this->resultData['data'] = new \stdClass();
-
         $this->setResultData();
     }
 
@@ -65,13 +62,36 @@ class AppBaseController extends AbstractActionController
     /**
      * Init the result object
      *
+     * @param array $resultData
+     */
+    protected function setResultData($resultData = [])
+    {
+        if (!isset($resultData['code'])) {
+            $resultData['code'] = 0;
+        }
+        if (!isset($resultData['message'])) {
+            $resultData['message'] = 'Success';
+        }
+        if (!isset($resultData['data'])) {
+            $resultData['data'] = new \stdClass();
+        } else {
+            if (!$resultData instanceof \stdClass) {
+                $resultData['data'] = new \stdClass();
+            }
+        }
+        $this->resultData = $resultData;
+    }
+
+    /**
      * @param int $code
      * @param string $message
      */
-    protected function setResultData($code = 0, $message = 'Success')
+    protected function setResultCodeMessage($code = 0, $message = 'Success')
     {
-        $this->resultData['code'] = (int)$code;
-        $this->resultData['message'] = (string)$message;
+        $data = $this->getResultData();
+        $data['code'] = $code;
+        $data['message'] = $message;
+        $this->setResultData($data);
     }
 
     /**
