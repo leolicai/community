@@ -16,21 +16,12 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
 
-
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\DashboardController::class => InvokableFactory::class,
             Controller\ProfileController::class => InvokableFactory::class,
-        ],
-    ],
-
-    'controller_plugins' => [
-        'factories' => [
-            Controller\Plugin\AppAdminMessagePlugin::class => InvokableFactory::class,
-        ],
-        'aliases' => [
-            'appAdminMessage' => Controller\Plugin\AppAdminMessagePlugin::class,
+            Controller\AdminerController::class => InvokableFactory::class,
         ],
     ],
 
@@ -43,6 +34,7 @@ return [
             Service\MenuManager::class => Service\Factory\MenuManagerFactory::class,
 
             Service\AdminerManager::class => EntityManagerFactory::class,
+            Service\GroupManager::class => EntityManagerFactory::class,
         ],
     ],
 
@@ -69,10 +61,12 @@ return [
         'factories' => [
             View\Helper\TopRightMenu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\PageTitleBar::class => InvokableFactory::class,
+            View\Helper\Pagination::class => InvokableFactory::class,
         ],
         'aliases' => [
-            'topRightMenu' => View\Helper\TopRightMenu::class,
-            'pageTitleBar' => View\Helper\PageTitleBar::class,
+            'adminTopRightMenu' => View\Helper\TopRightMenu::class,
+            'adminPageTitleBar' => View\Helper\PageTitleBar::class,
+            'adminPagination' => View\Helper\Pagination::class,
         ],
     ],
 
@@ -145,6 +139,22 @@ return [
                             ],
                             'defaults' => [
                                 'controller' => Controller\ProfileController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+
+                    'adminer' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'adminer[/:action[/:key]][:suffix]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_\-]+',
+                                'key' => '[a-zA-Z0-9_\-]+',
+                                'suffix' => '(/|.html)',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\AdminerController::class,
                                 'action' => 'index',
                             ],
                         ],

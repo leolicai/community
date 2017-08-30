@@ -92,9 +92,9 @@ class MenuManager
 
         $item = self::CreateMenuItem('profile_menu', 'user', $adminer->getAdminName());
         $item['dropdown'] = [
-            self::CreateMenuItem('summary', 'user', '我的信息', $url('admin/profile'), $adminer->getAdminName()),
-            self::CreateMenuItem('password', 'hashtag', '修改密码', $url('admin/profile', ['action' => 'password'])),
-            self::CreateMenuItem('profile_detail', 'edit', '修改资料', $url('admin/profile', ['action' => 'update'])),
+            self::CreateMenuItem('summary', 'user', '我的信息', $url('admin/profile', ['suffix'=>'.html']), $adminer->getAdminName()),
+            self::CreateMenuItem('password', 'hashtag', '修改密码', $url('admin/profile', ['action' => 'password', 'suffix'=>'.html'])),
+            self::CreateMenuItem('profile_detail', 'edit', '修改资料', $url('admin/profile', ['action' => 'update', 'suffix'=>'.html'])),
             self::CreateMenuItem('', '', '', '', '', 'divider'),
             self::CreateMenuItem('profile_logout', 'sign-out', '退出登录', $url('admin/index', ['action' => 'logout', 'suffix' => '.html'])),
         ];

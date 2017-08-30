@@ -46,7 +46,7 @@
             id="topMenuContainer"
             data-message="<?php echo '#'; /** $this->url('admin/message', ['action' => 'unread']); */ ?>"
         >
-            <?php echo $this->topRightMenu()->render(); ?>
+            <?php echo $this->adminTopRightMenu()->render(); ?>
         </ul>
 
         <!-- Side nav bar -->
@@ -57,7 +57,7 @@
 
     <div id="page-wrapper">
         <!-- Page title bar -->
-        <?php echo $this->pageTitleBar()->render(); ?>
+        <?php echo $this->adminPageTitleBar()->render(); ?>
 
         <!-- Page breadcrumb bar -->
         <?php /** echo $this->pageBreadcrumbBar()->render(); */ ?>

@@ -20,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 管理员分组实体定义
  *
  * @package Admin\Entity
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Admin\Repository\GroupRepository")
  * @ORM\Table(
  *     name="sys_group",
  *     indexes={

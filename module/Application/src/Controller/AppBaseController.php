@@ -10,6 +10,10 @@ namespace Application\Controller;
 
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
+use Zend\View\Helper\AbstractHelper;
+use Zend\View\HelperPluginManager;
 
 
 /**
@@ -34,16 +38,30 @@ class AppBaseController extends AbstractActionController
 
 
     /**
-     * @param null $service_name
-     * @return mixed|\Zend\ServiceManager\ServiceLocatorInterface
+     * @param null $helper
+     * @return AbstractHelper|HelperPluginManager
      */
-    protected function appServiceManager($service_name = null)
+    protected function appViewHelperManager($helper = null)
+    {
+        $helperManager = $this->appServiceManager('ViewHelperManager');
+        if (null === $helper) {
+            return $helperManager;
+        }
+        return $helperManager->get($helper);
+    }
+
+
+    /**
+     * @param null $service
+     * @return ServiceLocatorInterface|ServiceManager|mixed
+     */
+    protected function appServiceManager($service = null)
     {
         $manager = $this->getEvent()->getApplication()->getServiceManager();
-        if (null === $manager) {
+        if (null === $service) {
             return $manager;
         }
-        return $manager->get($service_name);
+        return $manager->get($service);
     }
 
 

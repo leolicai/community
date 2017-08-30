@@ -28,13 +28,13 @@ $entityAdmin = new Adminer();
 
 $entityAdmin->setAdminID(Uuid::uuid1()->toString());
 $entityAdmin->setAdminEmail($adminEmail);
-$entityAdmin->setAdminPasswd(md5($adminPasswd));
+$entityAdmin->setAdminPasswd($adminPasswd);
 $entityAdmin->setAdminActivated(Adminer::ACTIVATED_VALID);
 $entityAdmin->setAdminActiveCode('');
 $entityAdmin->setAdminDefault(Adminer::DEFAULT_ADMIN);
 $entityAdmin->setAdminExpired(new \DateTime("+99 years"));
 $entityAdmin->setAdminCreated(new \DateTime());
-$entityAdmin->setAdminLevel(Adminer::LEVEL_SUPPER);
+$entityAdmin->setAdminLevel(Adminer::LEVEL_SUPERIOR);
 $entityAdmin->setAdminLocked(Adminer::LOCKED_INVALID);
 $entityAdmin->setAdminStatus(Adminer::STATUS_VALID);
 $entityAdmin->setAdminName('Administrator');

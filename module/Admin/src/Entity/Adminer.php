@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @package Admin\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Admin\Repository\AdminerRepository")
  * @ORM\Table(
  *     name="sys_admin",
  *     indexes={
@@ -48,7 +48,10 @@ class Adminer
     const ACTIVATED_VALID = 1;
     const ACTIVATED_INVALID = 0;
 
-    const LEVEL_SUPPER = 999;
+    const LEVEL_SUPERIOR = 999;
+    const LEVEL_SENIOR = 30;
+    const LEVEL_JUNIOR = 20;
+    const LEVEL_INTERIOR = 10;
     const LEVEL_DEFAULT = 1;
 
     /**
@@ -114,7 +117,7 @@ class Adminer
      * @var integer
      * @ORM\Column(name="admin_level", type="integer")
      */
-    protected $adminLevel;
+    protected $adminLevel = self::LEVEL_DEFAULT;
 
     /**
      * 管理员名字
@@ -161,6 +164,90 @@ class Adminer
      * )
      */
     protected $adminGroups;
+
+
+    /**
+     * @return array
+     */
+    public static function StatusList()
+    {
+        return [
+            self::STATUS_VALID => '有效',
+            self::STATUS_INVALID => '废弃',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function LevelList()
+    {
+        return [
+            self::LEVEL_SUPERIOR => '超级管理员',
+            self::LEVEL_SENIOR => '高级管理员',
+            self::LEVEL_JUNIOR => '中级管理员',
+            self::LEVEL_INTERIOR => '初级管理员',
+            self::LEVEL_DEFAULT => '管理员',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function ActivatedList()
+    {
+        return [
+            self::ACTIVATED_VALID => '已激活',
+            self::ACTIVATED_INVALID => '未激活',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function LockedList()
+    {
+        return [
+            self::LOCKED_VALID => '被锁定',
+            self::LOCKED_INVALID => '未锁定',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminStatusAsString()
+    {
+        $list = self::StatusList();
+        return $list[$this->getAdminStatus()];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminLevelAsString()
+    {
+        $list = self::LevelList();
+        return $list[$this->getAdminLevel()];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminActivatedAsString()
+    {
+        $list = self::ActivatedList();
+        return $list[$this->getAdminActivated()];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminLockedAsString()
+    {
+        $list = self::LockedList();
+        return $list[$this->getAdminLocked()];
+    }
 
 
     public function __construct()
@@ -213,7 +300,7 @@ class Adminer
      */
     public function setAdminPasswd($adminPasswd)
     {
-        $this->adminPasswd = $adminPasswd;
+        $this->adminPasswd = md5(strtolower($adminPasswd));
     }
 
     /**

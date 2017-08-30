@@ -12,6 +12,7 @@ namespace Admin\Controller;
 
 use Admin\Service\AdminerManager;
 use Admin\Service\AuthService;
+use Admin\Service\GroupManager;
 use Application\Controller\AppBaseController;
 
 
@@ -21,6 +22,14 @@ use Application\Controller\AppBaseController;
  */
 class AdminBaseController extends AppBaseController
 {
+
+    /**
+     * @return GroupManager
+     */
+    protected function appAdminGroupManager()
+    {
+        return $this->appServiceManager(GroupManager::class);
+    }
 
     /**
      * @return AdminerManager

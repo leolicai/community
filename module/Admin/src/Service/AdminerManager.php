@@ -11,37 +11,12 @@ namespace Admin\Service;
 
 
 use Admin\Entity\Adminer;
+use Application\Service\BaseManager;
 use Doctrine\ORM\EntityManager;
 
 
-class AdminerManager
+class AdminerManager extends BaseManager
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->setEntityManager($entityManager);
-    }
-
-    /**
-     * @return EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->entityManager;
-    }
-
-    /**
-     * @param EntityManager $entityManager
-     */
-    public function setEntityManager($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
 
     /**
      * @param $adminID
@@ -49,7 +24,7 @@ class AdminerManager
      */
     public function getAdminerByID($adminID)
     {
-        return $this->entityManager->getRepository(Adminer::class)->find($adminID);
+        return $this->getEntityManager()->getRepository(Adminer::class)->find($adminID);
     }
 
 
@@ -59,6 +34,25 @@ class AdminerManager
      */
     public function getAdminerByEmail($email)
     {
-        return $this->entityManager->getRepository(Adminer::class)->findOneBy(['adminEmail' => $email]);
+        return $this->getEntityManager()->getRepository(Adminer::class)->findOneBy(['adminEmail' => $email]);
+    }
+
+
+    /**
+     * @return integer
+     */
+    public function getAdminerCount()
+    {
+        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminerCount();
+    }
+
+    /**
+     * @param int $page
+     * @param int $size
+     * @return Adminer[]
+     */
+    public function getAdminersByLimitPage($page = 1, $size = 100)
+    {
+        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersByLimitPage($page, $size);
     }
 }
