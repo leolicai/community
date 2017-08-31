@@ -18,6 +18,9 @@ use Zend\InputFilter\InputFilter;
 class BaseForm extends Form
 {
 
+    const FIELD_SUBMIT = 'submit';
+    const FIELD_CSRF = 'csrf';
+
     /**
      * @var array
      */
@@ -56,7 +59,7 @@ class BaseForm extends Form
     {
         $this->addElement([
             'type'  => 'csrf',
-            'name' => 'csrf',
+            'name' => self::FIELD_CSRF,
             'options' => [
                 'csrf_options' => [
                     'timeout' => 600
@@ -73,9 +76,9 @@ class BaseForm extends Form
     {
         $this->addElement([
             'type' => 'submit',
-            'name' => 'submit',
+            'name' => self::FIELD_SUBMIT,
             'attributes' => [
-                'id' => 'submit',
+                'id' => self::FIELD_SUBMIT,
                 'value' => 'Submit',
             ],
         ]);

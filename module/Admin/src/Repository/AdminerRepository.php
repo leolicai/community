@@ -52,7 +52,8 @@ class AdminerRepository extends EntityRepository
             ->where('a.adminStatus = ?1')
             ->setMaxResults($size)
             ->setFirstResult(($page - 1) * $size)
-            ->orderBy('a.adminLevel', 'DESC')
+            ->orderBy('a.adminDefault', 'DESC')
+            ->addOrderBy('a.adminLevel', 'DESC')
             ->addOrderBy('a.adminCreated', 'DESC')
             ->setParameter(1, Adminer::STATUS_VALID);
 
