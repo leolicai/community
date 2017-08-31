@@ -152,4 +152,74 @@ class GroupController extends AdminBaseController
         return $this->layout()->setTerminal(true);
     }
 
+
+    /**
+     * Page for dispatch group to adminers
+     */
+    public function adminerAction()
+    {
+        $groupID = $this->params()->fromRoute('key', '');
+
+        $groupManager = $this->appAdminGroupManager();
+        $group = $groupManager->getGroupByID($groupID);
+
+        if (!$group instanceof Group) {
+            throw  new RuntimeException('Invalid group identity');
+        }
+
+        if (Group::DEFAULT_GROUP == $group->getGroupDefault()) {
+            throw  new RuntimeException('Disable configuration default group');
+        }
+
+        $adminerManager = $this->appAdminAdminerManager();
+        $adminers = $adminerManager->getAllAdminers();
+
+        if($this->getRequest()->isPost()) {
+
+            $joined = (array)$this->params()->fromPost('joined', []);
+            $unjoin = (array)$this->params()->fromPost('unjoin', []);
+
+            $selected = [];
+            foreach ($joined as $groupID) {
+                $selected[$groupID] = $groupID;
+            }
+            foreach ($unjoin as $groupID) {
+                $selected[$groupID] = $groupID;
+            }
+            //echo '<pre>'; print_r($this->params()->fromPost()); print_r($selected); echo '</pre>';
+
+            $groupAdminers = $group->getGroupAdminers();
+            foreach ($groupAdminers as $adminer) {
+                if (!in_array($adminer->getAdminID(), $selected)) {
+                    $groupAdminers->removeElement($adminer);
+                } else {
+                    unset($selected[$adminer->getAdminID()]);
+                }
+            }
+            if (!empty($selected)) {
+                foreach ($selected as $adminerID) {
+                    foreach($adminers as $adminer) {
+                        if ($adminer->getAdminID() == $adminerID) {
+                            $groupAdminers->add($adminer);
+                        }
+                    }
+                }
+            }
+
+            $group->setGroupAdminers($groupAdminers);
+
+            $groupManager->saveModifiedGroup($group);
+
+            $this->go(
+                '分组已更新',
+                '分组: ' . $group->getGroupName() . ' 的成员信息已经更新!',
+                $this->url()->fromRoute('admin/adminer')
+            );
+
+            return $this->layout()->setTerminal(true);
+        }
+
+        $this->addResultData('adminers', $adminers);
+        $this->addResultData('group', $group);
+    }
 }

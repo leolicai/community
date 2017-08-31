@@ -1,0 +1,68 @@
+<?php
+
+if (!$data->group instanceof \Admin\Entity\Group) {
+    throw new RuntimeException('Invalid group information');
+}
+
+$this->adminPageTitleBar('分组成员配置', $data->group->getGroupName());
+
+//$this->adminSideTreeMenu()->setActiveId($activeID);
+
+$joined = $data->group->getGroupAdminers();
+
+?>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">已加入的成员</h3>
+                </div>
+                <div class="panel-body">
+                    <?php
+                    foreach($joined as $adminer) {
+                        if(!$adminer instanceof \Admin\Entity\Adminer) { continue; }
+                        if($adminer->getAdminDefault() == \Admin\Entity\Adminer::DEFAULT_ADMIN) { continue; }
+                        ?>
+                        <label class="btn btn-default" style="margin: 5px; 0;">
+                            <input
+                                name="joined[]"
+                                type="checkbox"
+                                checked="checked"
+                                value="<?php echo $adminer->getAdminID(); ?>"
+                            > <?php echo $adminer->getAdminName(); ?>
+                        </label>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">未加入的成员</h3>
+                </div>
+                <div class="panel-body">
+                    <?php
+                    foreach($data->adminers as $adminer) {
+                        if(!$adminer instanceof \Admin\Entity\Adminer) { continue; }
+                        if ($joined->contains($adminer)) { continue; }
+                        ?>
+                        <label class="btn btn-default" style="margin: 5px; 0;">
+                            <input
+                                name="unjoin[]"
+                                type="checkbox"
+                                value="<?php echo $adminer->getAdminID(); ?>"
+                            > <?php echo $adminer->getAdminName(); ?>
+                        </label>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="保存配置">
+            </div>
+        </form>
+    </div>
+</div>

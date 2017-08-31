@@ -56,6 +56,14 @@ class AdminerManager extends BaseManager
         return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersByLimitPage($page, $size);
     }
 
+    /**
+     * @return Adminer[]
+     */
+    public function getAllAdminers()
+    {
+        return $this->getEntityManager()->getRepository(Adminer::class)->findBy(['adminDefault' => Adminer::DEFAULT_OTHER]);
+    }
+
 
     /**
      * @param Adminer $adminer
