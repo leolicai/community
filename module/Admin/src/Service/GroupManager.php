@@ -63,6 +63,15 @@ class GroupManager extends BaseManager
 
 
     /**
+     * @return Group[]
+     */
+    public function getAllGroups()
+    {
+        return $this->getEntityManager()->getRepository(Group::class)->findAll();
+    }
+
+
+    /**
      * @param Group $group
      */
     public function saveModifiedGroup(Group $group)
