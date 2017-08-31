@@ -20,18 +20,13 @@ class AdminerRepository extends EntityRepository
     /**
      * @return integer
      */
-    public function getAdminerCount()
+    public function getAdminersCount()
     {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
 
         $queryBuilder->from(Adminer::class, 'a');
         $queryBuilder->select($queryBuilder->expr()->count('a.adminID'));
-
-        //$queryBuilder->where('a.adminStatus = ?1');
-        $queryBuilder->where($queryBuilder->expr()->eq('a.adminStatus', '?1'));
-        $queryBuilder->orderBy('a.adminLevel', 'DESC');
-        $queryBuilder->setParameter(1, Adminer::STATUS_VALID);
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
@@ -49,13 +44,11 @@ class AdminerRepository extends EntityRepository
 
         $queryBuilder->select('a')
             ->from(Adminer::class, 'a')
-            ->where('a.adminStatus = ?1')
             ->setMaxResults($size)
             ->setFirstResult(($page - 1) * $size)
             ->orderBy('a.adminDefault', 'DESC')
             ->addOrderBy('a.adminLevel', 'DESC')
-            ->addOrderBy('a.adminCreated', 'DESC')
-            ->setParameter(1, Adminer::STATUS_VALID);
+            ->addOrderBy('a.adminCreated', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();
     }

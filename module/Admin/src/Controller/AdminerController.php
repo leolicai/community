@@ -14,8 +14,9 @@ use Admin\Entity\Adminer;
 use Admin\Entity\Group;
 use Admin\Exception\RuntimeException;
 use Admin\Form\AdminerForm;
-use Admin\View\Helper\Pagination;
+use Application\View\Helper\Pagination;
 use Ramsey\Uuid\Uuid;
+
 
 class AdminerController extends AdminBaseController
 {
@@ -31,7 +32,7 @@ class AdminerController extends AdminBaseController
 
         $adminerManager = $this->appAdminAdminerManager();
 
-        $count = $adminerManager->getAdminerCount();
+        $count = $adminerManager->getAdminersCount();
 
         $pagination = $this->appViewHelperManager(Pagination::class);
         if (!$pagination instanceof Pagination) {
@@ -77,7 +78,6 @@ class AdminerController extends AdminBaseController
                 $adminer->setAdminPasswd($data[AdminerForm::FIELD_PASSWORD]);
                 $adminer->setAdminName($data[AdminerForm::FIELD_NAME]);
                 $adminer->setAdminExpired(new \DateTime($data[AdminerForm::FIELD_EXPIRED]));
-                $adminer->setAdminStatus(Adminer::STATUS_VALID);
                 $adminer->setAdminActivated(Adminer::ACTIVATED_INVALID);
                 $adminer->setAdminActiveCode(md5(time()));
                 $adminer->setAdminLocked(Adminer::LOCKED_INVALID);
@@ -89,8 +89,7 @@ class AdminerController extends AdminBaseController
                 $groups->add($defaultGroup);
                 $adminer->setAdminGroups($groups);
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '管理员已添加',
@@ -128,8 +127,7 @@ class AdminerController extends AdminBaseController
         $adminer->setAdminActivated(Adminer::ACTIVATED_VALID);
         $adminer->setAdminActiveCode('');
 
-        $adminerManager->getEntityManager()->persist($adminer);
-        $adminerManager->getEntityManager()->flush();
+        $adminerManager->saveModifiedAdminer($adminer);
 
         $this->go('已激活', '管理员账号已经被激活!', $this->url()->fromRoute('admin/adminer'));
 
@@ -156,8 +154,7 @@ class AdminerController extends AdminBaseController
 
         $adminer->setAdminLocked(Adminer::LOCKED_VALID);
 
-        $adminerManager->getEntityManager()->persist($adminer);
-        $adminerManager->getEntityManager()->flush();
+        $adminerManager->saveModifiedAdminer($adminer);
 
         $this->go('已锁定', '管理员账号已经被锁定!', $this->url()->fromRoute('admin/adminer'));
 
@@ -184,8 +181,7 @@ class AdminerController extends AdminBaseController
 
         $adminer->setAdminLocked(Adminer::LOCKED_INVALID);
 
-        $adminerManager->getEntityManager()->persist($adminer);
-        $adminerManager->getEntityManager()->flush();
+        $adminerManager->saveModifiedAdminer($adminer);
 
         $this->go('已解锁', '管理员账号已经解除锁定!', $this->url()->fromRoute('admin/adminer'));
 
@@ -221,8 +217,7 @@ class AdminerController extends AdminBaseController
                 $adminer->setAdminEmail($data[AdminerForm::FIELD_EMAIL]);
                 $adminer->setAdminName($data[AdminerForm::FIELD_NAME]);
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '资料已更新',
@@ -267,8 +262,7 @@ class AdminerController extends AdminBaseController
 
                 $adminer->setAdminLevel($data[AdminerForm::FIELD_LEVEL]);
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '等级已更新',
@@ -313,8 +307,7 @@ class AdminerController extends AdminBaseController
 
                 $adminer->setAdminPasswd($data[AdminerForm::FIELD_PASSWORD]);
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '密码已更新',
@@ -359,8 +352,7 @@ class AdminerController extends AdminBaseController
 
                 $adminer->setAdminExpired(new \DateTime($data[AdminerForm::FIELD_EXPIRED]));
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '失效时间已更新',

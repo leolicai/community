@@ -17,6 +17,8 @@ use Form\Validator\Factory;
 class UpdateProfileForm extends BaseForm
 {
 
+    const FIELD_NAME = 'name';
+
     /**
      * 表单: 用户名字
      */
@@ -26,7 +28,7 @@ class UpdateProfileForm extends BaseForm
             Factory::StringLength(2, 15),
         ];
 
-        $this->addTextElement('name', true, $validators);
+        $this->addTextElement(self::FIELD_NAME, true, $validators);
     }
 
 

@@ -20,6 +20,10 @@ use Form\Validator\Factory;
 class UpdatePasswordForm extends BaseForm
 {
 
+    const FIELD_OLD_PASSWORD = 'old_password';
+    const FIELD_NEW_PASSWORD = 'new_password';
+    const FIELD_RE_NEW_PASSWORD = 're_new_password';
+
     /**
      * @var AdminerManager
      */
@@ -57,7 +61,7 @@ class UpdatePasswordForm extends BaseForm
             ]
         ];
 
-        $this->addPasswordElement('old_password', $validators);
+        $this->addPasswordElement(self::FIELD_OLD_PASSWORD, $validators);
     }
 
 
@@ -70,7 +74,7 @@ class UpdatePasswordForm extends BaseForm
             Factory::StringLength(4, 15),
         ];
 
-        $this->addPasswordElement('new_password', $validators);
+        $this->addPasswordElement(self::FIELD_NEW_PASSWORD, $validators);
     }
 
     /**
@@ -79,10 +83,10 @@ class UpdatePasswordForm extends BaseForm
     private function addConfirmPassword()
     {
         $validators = [
-            Factory::Identical('new_password'),
+            Factory::Identical(self::FIELD_NEW_PASSWORD),
         ];
 
-        $this->addPasswordElement('re_new_password', $validators);
+        $this->addPasswordElement(self::FIELD_RE_NEW_PASSWORD, $validators);
     }
 
 

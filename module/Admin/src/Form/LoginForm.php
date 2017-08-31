@@ -17,12 +17,15 @@ use Form\Validator\Factory as ValidatorFactory;
 class LoginForm extends BaseForm
 {
 
+    const FIELD_EMAIL = 'email';
+    const FIELD_PASSWORD = 'password';
+
     /**
      * Form account
      */
     private function addFormAccount()
     {
-        $this->addEmailElement('email');
+        $this->addEmailElement(self::FIELD_EMAIL);
     }
 
     /**
@@ -30,7 +33,7 @@ class LoginForm extends BaseForm
      */
     private function addFormPassword()
     {
-        $this->addPasswordElement('password', [ValidatorFactory::StringLength(4, 20)]);
+        $this->addPasswordElement(self::FIELD_PASSWORD, [ValidatorFactory::StringLength(4, 20)]);
     }
 
     /**

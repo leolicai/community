@@ -57,11 +57,9 @@ class ProfileController extends AdminBaseController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                $encryptedPassword = md5($data['new_password']); // Simple MD5 encrypt
-                $adminer->setAdminPasswd($encryptedPassword);
+                $adminer->setAdminPasswd($data[UpdatePasswordForm::FIELD_NEW_PASSWORD]);
 
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '密码已更新',
@@ -97,9 +95,9 @@ class ProfileController extends AdminBaseController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                $adminer->setAdminName($data['name']);
-                $adminerManager->getEntityManager()->persist($adminer);
-                $adminerManager->getEntityManager()->flush();
+                $adminer->setAdminName($data[UpdateProfileForm::FIELD_NAME]);
+
+                $adminerManager->saveModifiedAdminer($adminer);
 
                 $this->go(
                     '资料已更新',

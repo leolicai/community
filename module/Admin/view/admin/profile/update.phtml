@@ -1,14 +1,15 @@
 <?php
+use Admin\Form\UpdateProfileForm;
 
 $this->adminPageTitleBar('更新我的资料');
 
 
-$data->form->get('name')->setAttributes([
+$data->form->get(UpdateProfileForm::FIELD_NAME)->setAttributes([
     'class' => 'form-control',
     'placeholder' => $data->adminer->getAdminName(),
 ]);
 
-$data->form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
+$data->form->get(UpdateProfileForm::FIELD_SUBMIT)->setAttributes(['class'=>'btn btn-primary']);
 
 $data->form->prepare();
 
@@ -20,19 +21,19 @@ $data->form->prepare();
         <?php echo $this->form()->openTag($data->form); ?>
 
         <div class="form-group">
-            <?php echo $this->formElement($data->form->get('csrf')); ?>
+            <?php echo $this->formElement($data->form->get(UpdateProfileForm::FIELD_CSRF)); ?>
 
         </div>
 
         <div class="form-group">
-            <?php echo $this->formLabel($data->form->get('name'), '更新名字'); ?>
-            <?php echo $this->formElement($data->form->get('name')); ?>
-            <?php echo $this->formElementErrors($data->form->get('name')); ?>
+            <?php echo $this->formLabel($data->form->get(UpdateProfileForm::FIELD_NAME), '更新名字'); ?>
+            <?php echo $this->formElement($data->form->get(UpdateProfileForm::FIELD_NAME)); ?>
+            <?php echo $this->formElementErrors($data->form->get(UpdateProfileForm::FIELD_NAME)); ?>
 
         </div>
 
         <div class="form-group">
-            <?php echo $this->formElement($data->form->get('submit')); ?>
+            <?php echo $this->formElement($data->form->get(UpdateProfileForm::FIELD_SUBMIT)); ?>
 
         </div>
 

@@ -1,8 +1,10 @@
 <?php
+use Admin\Form\LoginForm;
+
 $this->headTitle('登入系统');
 
 // 表单: 帐号
-$input = $data->form->get('email');
+$input = $data->form->get(LoginForm::FIELD_EMAIL);
 $input->setAttributes([
     'class'=>'form-control',
     'placeholder'=>'name@example.com',
@@ -14,7 +16,7 @@ $this->formLocalMessage($input, [
 
 
 // 表单: 密码
-$input = $data->form->get('password');
+$input = $data->form->get(LoginForm::FIELD_PASSWORD);
 $input->setAttributes([
     'class'=>'form-control',
     'placeholder'=>'在这里输入您的登录密码',
@@ -25,7 +27,7 @@ $this->formLocalMessage($input, [
     \Zend\Validator\StringLength::TOO_LONG => '登录密码长度太长了.',
 ]);
 
-$data->form->get('submit')->setAttributes(['class'=>'btn btn-primary', 'value' => '登入系统']);
+$data->form->get(LoginForm::FIELD_SUBMIT)->setAttributes(['class'=>'btn btn-primary', 'value' => '登入系统']);
 
 $data->form->prepare();
 
@@ -61,23 +63,23 @@ $data->form->prepare();
         <?php echo $this->form()->openTag($data->form); ?>
 
         <div class="form-group">
-            <?php echo $this->formElement($data->form->get('csrf')); ?>
+            <?php echo $this->formElement($data->form->get(LoginForm::FIELD_CSRF)); ?>
         </div>
 
         <div class="form-group">
-            <?php echo $this->formLabel($data->form->get('email'), '登录账户'); ?>
-            <?php echo $this->formElement($data->form->get('email')); ?>
-            <?php echo $this->formElementErrors($data->form->get('email')); ?>
+            <?php echo $this->formLabel($data->form->get(LoginForm::FIELD_EMAIL), '登录账户'); ?>
+            <?php echo $this->formElement($data->form->get(LoginForm::FIELD_EMAIL)); ?>
+            <?php echo $this->formElementErrors($data->form->get(LoginForm::FIELD_EMAIL)); ?>
         </div>
 
         <div class="form-group">
-            <?php echo $this->formLabel($data->form->get('password'), '登录密码'); ?>
-            <?php echo $this->formElement($data->form->get('password')); ?>
-            <?php echo $this->formElementErrors($data->form->get('password')); ?>
+            <?php echo $this->formLabel($data->form->get(LoginForm::FIELD_PASSWORD), '登录密码'); ?>
+            <?php echo $this->formElement($data->form->get(LoginForm::FIELD_PASSWORD)); ?>
+            <?php echo $this->formElementErrors($data->form->get(LoginForm::FIELD_PASSWORD)); ?>
         </div>
 
         <div class="form-group">
-            <?php echo $this->formElement($data->form->get('submit')); ?>
+            <?php echo $this->formElement($data->form->get(LoginForm::FIELD_SUBMIT)); ?>
         </div>
 
         <?php echo $this->form()->closeTag(); ?>

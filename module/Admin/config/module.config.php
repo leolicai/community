@@ -22,6 +22,7 @@ return [
             Controller\DashboardController::class => InvokableFactory::class,
             Controller\ProfileController::class => InvokableFactory::class,
             Controller\AdminerController::class => InvokableFactory::class,
+            Controller\GroupController::class => InvokableFactory::class,
         ],
     ],
 
@@ -61,12 +62,10 @@ return [
         'factories' => [
             View\Helper\TopRightMenu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\PageTitleBar::class => InvokableFactory::class,
-            View\Helper\Pagination::class => InvokableFactory::class,
         ],
         'aliases' => [
             'adminTopRightMenu' => View\Helper\TopRightMenu::class,
             'adminPageTitleBar' => View\Helper\PageTitleBar::class,
-            'adminPagination' => View\Helper\Pagination::class,
         ],
     ],
 
@@ -155,6 +154,22 @@ return [
                             ],
                             'defaults' => [
                                 'controller' => Controller\AdminerController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+
+                    'group' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'group[/:action[/:key]][:suffix]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_\-]+',
+                                'key' => '[a-zA-Z0-9_\-]+',
+                                'suffix' => '(/|.html)',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\GroupController::class,
                                 'action' => 'index',
                             ],
                         ],

@@ -70,8 +70,8 @@ class IndexController extends AdminBaseController
                     throw new RuntimeException('系统未配置授权适配器', 1112);
                 }
 
-                $authAdapter->setEmail($data['email']);
-                $authAdapter->setPasswd($data['password']);
+                $authAdapter->setEmail($data[LoginForm::FIELD_EMAIL]);
+                $authAdapter->setPasswd($data[LoginForm::FIELD_PASSWORD]);
                 $authAdapter->setAdminerManager($this->appAdminAdminerManager());
 
                 $result = $authService->authenticate();

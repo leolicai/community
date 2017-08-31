@@ -69,7 +69,7 @@ class Group
      * @var integer
      * @ORM\Column(name="group_status", type="integer")
      */
-    protected $groupStatus = self::STATUS_INVALID;
+    protected $groupStatus = self::STATUS_VALID;
 
     /**
      * 分组创建时间

@@ -94,4 +94,15 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+
+
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\Pagination::class => InvokableFactory::class,
+        ],
+        'aliases' => [
+            'pagination' => View\Helper\Pagination::class,
+        ],
+    ],
+
 ];

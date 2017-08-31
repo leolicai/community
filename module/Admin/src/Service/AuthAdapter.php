@@ -69,7 +69,7 @@ class AuthAdapter implements AdapterInterface
      */
     public function setPasswd($passwd)
     {
-        $this->passwd = md5($passwd);
+        $this->passwd = md5(strtolower($passwd));
     }
 
     /**

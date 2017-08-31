@@ -41,9 +41,9 @@ class AdminerManager extends BaseManager
     /**
      * @return integer
      */
-    public function getAdminerCount()
+    public function getAdminersCount()
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminerCount();
+        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersCount();
     }
 
     /**
@@ -54,5 +54,15 @@ class AdminerManager extends BaseManager
     public function getAdminersByLimitPage($page = 1, $size = 100)
     {
         return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersByLimitPage($page, $size);
+    }
+
+
+    /**
+     * @param Adminer $adminer
+     */
+    public function saveModifiedAdminer(Adminer $adminer)
+    {
+        $this->getEntityManager()->persist($adminer);
+        $this->getEntityManager()->flush();
     }
 }

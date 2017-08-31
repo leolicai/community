@@ -3,11 +3,11 @@
  * Pagination.php
  *
  * Author: leo <camworkster@gmail.com>
- * Date: 2017/8/30
+ * Date: 2017/8/31
  * Version: 1.0
  */
 
-namespace Admin\View\Helper;
+namespace Application\View\Helper;
 
 
 use Zend\View\Helper\AbstractHelper;
@@ -190,6 +190,5 @@ class Pagination extends AbstractHelper
 
         return $html;
     }
-
 
 }

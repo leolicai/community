@@ -93,7 +93,7 @@ class Adminer
      * @var integer
      * @ORM\Column(name="admin_status", type="integer")
      */
-    protected $adminStatus = self::ACTIVATED_INVALID;
+    protected $adminStatus = self::STATUS_VALID;
 
     /**
      * 管理员账户锁定状况
