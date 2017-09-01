@@ -94,8 +94,7 @@ $this->inlineScript()->captureEnd();
                                         </li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a href="#"
-                                               data-toggle="modal" data-target="#pageModal">
+                                            <a href="<?php echo $this->url('admin/group', ['action' => 'adminer', 'key' => $group->getGroupID()]); ?>">
                                                 <i class="fa fa-users fa-fw" aria-hidden="true"></i> 分组成员配置
                                             </a>
                                         </li>

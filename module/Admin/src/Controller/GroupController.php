@@ -180,40 +180,41 @@ class GroupController extends AdminBaseController
             $unjoin = (array)$this->params()->fromPost('unjoin', []);
 
             $selected = [];
-            foreach ($joined as $groupID) {
-                $selected[$groupID] = $groupID;
+            foreach ($joined as $adminerID) {
+                $selected[$adminerID] = $adminerID;
             }
-            foreach ($unjoin as $groupID) {
-                $selected[$groupID] = $groupID;
+            foreach ($unjoin as $adminerID) {
+                $selected[$adminerID] = $adminerID;
             }
             //echo '<pre>'; print_r($this->params()->fromPost()); print_r($selected); echo '</pre>';
 
             $groupAdminers = $group->getGroupAdminers();
             foreach ($groupAdminers as $adminer) {
                 if (!in_array($adminer->getAdminID(), $selected)) {
-                    $groupAdminers->removeElement($adminer);
-                } else {
-                    unset($selected[$adminer->getAdminID()]);
+                    $_adminerGroups = $adminer->getAdminGroups();
+                    $_adminerGroups->removeElement($group);
+                    $adminer->setAdminGroups($_adminerGroups);
+                    $adminerManager->saveModifiedAdminer($adminer);
                 }
             }
-            if (!empty($selected)) {
-                foreach ($selected as $adminerID) {
-                    foreach($adminers as $adminer) {
-                        if ($adminer->getAdminID() == $adminerID) {
-                            $groupAdminers->add($adminer);
+
+            foreach ($selected as $adminerID) {
+                foreach($adminers as $adminer) {
+                    if ($adminer->getAdminID() == $adminerID) {
+                        $_adminerGroups = $adminer->getAdminGroups();
+                        if (!$_adminerGroups->contains($group)) {
+                            $_adminerGroups->add($group);
+                            $adminer->setAdminGroups($_adminerGroups);
+                            $adminerManager->saveModifiedAdminer($adminer);
                         }
                     }
                 }
             }
 
-            $group->setGroupAdminers($groupAdminers);
-
-            $groupManager->saveModifiedGroup($group);
-
             $this->go(
                 '分组已更新',
                 '分组: ' . $group->getGroupName() . ' 的成员信息已经更新!',
-                $this->url()->fromRoute('admin/adminer')
+                $this->url()->fromRoute('admin/group')
             );
 
             return $this->layout()->setTerminal(true);
