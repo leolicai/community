@@ -165,6 +165,12 @@ class Adminer
      */
     protected $adminGroups;
 
+    /**
+     * @var AclAdminer[] | ArrayCollection
+     * @ORM\OneToMany(targetEntity="Admin\Entity\AclAdminer", mappedBy="aclAdminer", cascade={"remove"})
+     */
+    protected $adminAcls;
+
 
     /**
      * @return array
@@ -253,6 +259,7 @@ class Adminer
     public function __construct()
     {
         $this->adminGroups = new ArrayCollection();
+        $this->adminAcls = new ArrayCollection();
     }
 
     /**
@@ -461,6 +468,22 @@ class Adminer
     public function setAdminGroups($adminGroups)
     {
         $this->adminGroups = $adminGroups;
+    }
+
+    /**
+     * @return AclAdminer[]|ArrayCollection
+     */
+    public function getAdminAcls()
+    {
+        return $this->adminAcls;
+    }
+
+    /**
+     * @param AclAdminer[]|ArrayCollection $adminAcls
+     */
+    public function setAdminAcls($adminAcls)
+    {
+        $this->adminAcls = $adminAcls;
     }
 
 

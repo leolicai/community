@@ -80,10 +80,15 @@ class Group
      */
     protected $groupCreated;
 
+    /**
+     * @var AclGroup[] | ArrayCollection
+     * @ORM\OneToMany(targetEntity="Admin\Entity\AclGroup", mappedBy="aclGroup", cascade={"remove"})
+     */
+    protected $groupAcls;
+
 
     /**
      * @var Adminer[] | ArrayCollection
-     *
      * @ORM\ManyToMany(targetEntity="Admin\Entity\Adminer", mappedBy="adminGroups")
      */
     protected $groupAdminers;
@@ -92,6 +97,7 @@ class Group
     public function __construct()
     {
         $this->groupAdminers = new ArrayCollection();
+        $this->groupAcls = new ArrayCollection();
     }
 
     /**
@@ -188,6 +194,22 @@ class Group
     public function setGroupAdminers($groupAdminers)
     {
         $this->groupAdminers = $groupAdminers;
+    }
+
+    /**
+     * @return AclGroup[]|ArrayCollection
+     */
+    public function getGroupAcls()
+    {
+        return $this->groupAcls;
+    }
+
+    /**
+     * @param AclGroup[]|ArrayCollection $groupAcls
+     */
+    public function setGroupAcls($groupAcls)
+    {
+        $this->groupAcls = $groupAcls;
     }
 
 

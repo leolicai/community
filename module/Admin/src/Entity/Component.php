@@ -72,7 +72,7 @@ class Component
 
     /**
      * @var Action[] | ArrayCollection
-     * @ORM\OneToMany(targetEntity="Admin\Entity\Action", mappedBy="actionComponent")
+     * @ORM\OneToMany(targetEntity="Admin\Entity\Action", mappedBy="actionComponent", cascade={"persist","remove"})
      */
     private $componentActions;
 

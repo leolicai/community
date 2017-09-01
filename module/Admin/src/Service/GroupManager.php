@@ -86,12 +86,7 @@ class GroupManager extends BaseManager
      */
     public function removeGroup(Group $group)
     {
-        $adminers = $group->getGroupAdminers();
-        foreach ($adminers as $adminer) {
-            $adminers->removeElement($adminer);
-        }
-        $group->setGroupAdminers($adminers);
-
+        // Remove group
         $this->getEntityManager()->remove($group);
         $this->getEntityManager()->flush();
     }

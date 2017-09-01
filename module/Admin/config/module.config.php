@@ -38,6 +38,9 @@ return [
             Service\AdminerManager::class => EntityManagerFactory::class,
             Service\GroupManager::class => EntityManagerFactory::class,
             Service\ComponentManager::class => EntityManagerFactory::class,
+
+            Service\AclGroupManager::class => EntityManagerFactory::class,
+            Service\AclAdminerManager::class => EntityManagerFactory::class,
         ],
     ],
 

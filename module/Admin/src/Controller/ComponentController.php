@@ -10,12 +10,48 @@
 namespace Admin\Controller;
 
 
+use Admin\Entity\AclGroup;
+use Ramsey\Uuid\Uuid;
+
 class ComponentController extends AdminBaseController
 {
 
     public function indexAction()
     {
-        //todo
+
+        $componentManager = $this->appAdminComponentManager();
+        $groupManager = $this->appAdminGroupManager();
+
+        $defaultGroup = $groupManager->getDefaultGroup();
+
+        $component = $componentManager->getComponentByClass(__CLASS__);
+
+        $actions = $component->getComponentActions();
+        $selectAction = null;
+        foreach ($actions as $action) {
+            if ('async' == $action->getActionMethod()) {
+                $selectAction = $action;
+                break;
+            }
+        }
+
+        $aclGroupManager = $this->appAdminAclGroupManager();
+
+        $aclGroup = new AclGroup();
+        $aclGroup->setAclID(Uuid::uuid1()->toString());
+        $aclGroup->setAclGroup($defaultGroup);
+        $aclGroup->setAclAction($selectAction);
+        $aclGroup->setAclStatus(AclGroup::STATUS_ALLOWED);
+
+        $aclGroupManager->getEntityManager()->persist($aclGroup);
+        $aclGroupManager->getEntityManager()->flush();
+
+        echo 'done';
+
+        return $this->getResponse();
+
+
+
     }
 
 
@@ -32,7 +68,7 @@ class ComponentController extends AdminBaseController
             }
 
             if (method_exists($controllerClassName, 'ComponentRegistry')) {
-                $items[] = $controllerClassName::ComponentRegistry();
+                $items[$controllerClassName] = $controllerClassName::ComponentRegistry();
             }
         }
         //echo '<p>Origin</p><pre>'; print_r($items); echo '</pre><hr>';
@@ -60,8 +96,8 @@ class ComponentController extends AdminBaseController
     {
         $item = self::BuildComponentInfo(__CLASS__, '系统组件管理', 'admin/component', 1, 'cubes');
 
-        $item['actions']['index'] = self::BuildActionInfo('index', '系统组件列表', 1, 'bars');
-        $item['actions']['async'] = self::BuildActionInfo('async', '同步系统组件');
+        $item['component_actions']['index'] = self::BuildActionInfo('index', '系统组件列表', 1, 'bars');
+        $item['component_actions']['async'] = self::BuildActionInfo('async', '同步系统组件');
 
         return $item;
     }

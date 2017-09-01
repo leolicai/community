@@ -10,6 +10,7 @@
 namespace Admin\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -77,6 +78,26 @@ class Action
      */
     private $actionComponent;
 
+
+    /**
+     * @var AclGroup[] | ArrayCollection
+     * @ORM\OneToMany(targetEntity="Admin\Entity\AclGroup", mappedBy="aclAction", cascade={"remove"})
+     */
+    private $actionGroupAcls;
+
+
+    /**
+     * @var AclAdminer[] | ArrayCollection
+     * @ORM\OneToMany(targetEntity="Admin\Entity\AclAdminer", mappedBy="aclAction", cascade={"remove"})
+     */
+    private $actionAdminerAcls;
+
+
+    public function __construct()
+    {
+        $this->actionGroupAcls = new ArrayCollection();
+        $this->actionAdminerAcls = new ArrayCollection();
+    }
 
 
     /**
@@ -189,6 +210,38 @@ class Action
     public function setActionComponent($actionComponent)
     {
         $this->actionComponent = $actionComponent;
+    }
+
+    /**
+     * @return AclGroup[]|ArrayCollection
+     */
+    public function getActionGroupAcls()
+    {
+        return $this->actionGroupAcls;
+    }
+
+    /**
+     * @param AclGroup[]|ArrayCollection $actionGroupAcls
+     */
+    public function setActionGroupAcls($actionGroupAcls)
+    {
+        $this->actionGroupAcls = $actionGroupAcls;
+    }
+
+    /**
+     * @return AclAdminer[]|ArrayCollection
+     */
+    public function getActionAdminerAcls()
+    {
+        return $this->actionAdminerAcls;
+    }
+
+    /**
+     * @param AclAdminer[]|ArrayCollection $actionAdminerAcls
+     */
+    public function setActionAdminerAcls($actionAdminerAcls)
+    {
+        $this->actionAdminerAcls = $actionAdminerAcls;
     }
 
 
