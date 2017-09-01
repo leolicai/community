@@ -50,7 +50,7 @@ class Component
      * @var string
      * @ORM\Column(name="component_icon", type="string", length=45)
      */
-    private $componentIcon;
+    private $componentIcon = '';
 
     /**
      * @var string
@@ -80,6 +80,118 @@ class Component
     public function __construct()
     {
         $this->componentActions = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getComponentClass()
+    {
+        return $this->componentClass;
+    }
+
+    /**
+     * @param string $componentClass
+     */
+    public function setComponentClass($componentClass)
+    {
+        $this->componentClass = $componentClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComponentName()
+    {
+        return $this->componentName;
+    }
+
+    /**
+     * @param string $componentName
+     */
+    public function setComponentName($componentName)
+    {
+        $this->componentName = $componentName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComponentIcon()
+    {
+        return $this->componentIcon;
+    }
+
+    /**
+     * @param string $componentIcon
+     */
+    public function setComponentIcon($componentIcon)
+    {
+        $this->componentIcon = $componentIcon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComponentRoute()
+    {
+        return $this->componentRoute;
+    }
+
+    /**
+     * @param string $componentRoute
+     */
+    public function setComponentRoute($componentRoute)
+    {
+        $this->componentRoute = $componentRoute;
+    }
+
+    /**
+     * @return int
+     */
+    public function getComponentRank()
+    {
+        return $this->componentRank;
+    }
+
+    /**
+     * @param int $componentRank
+     */
+    public function setComponentRank($componentRank)
+    {
+        $this->componentRank = $componentRank;
+    }
+
+    /**
+     * @return int
+     */
+    public function getComponentMenu()
+    {
+        return $this->componentMenu;
+    }
+
+    /**
+     * @param int $componentMenu
+     */
+    public function setComponentMenu($componentMenu)
+    {
+        $this->componentMenu = $componentMenu;
+    }
+
+    /**
+     * @return Action[]|ArrayCollection
+     */
+    public function getComponentActions()
+    {
+        return $this->componentActions;
+    }
+
+    /**
+     * @param Action[]|ArrayCollection $componentActions
+     */
+    public function setComponentActions($componentActions)
+    {
+        $this->componentActions = $componentActions;
     }
 
 }

@@ -80,7 +80,6 @@ class ProfileController extends AdminBaseController
      */
     public function updateAction()
     {
-
         $authService = $this->appAdminAuthService();
         $adminerManager = $this->appAdminAdminerManager();
 

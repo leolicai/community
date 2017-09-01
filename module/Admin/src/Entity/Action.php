@@ -30,6 +30,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Action
 {
+    const MENU_VALID = 1;
+    const MENU_INVALID = 0;
+
     /**
      * @var string
      * @ORM\Id
@@ -47,25 +50,25 @@ class Action
      * @var string
      * @ORM\Column(name="action_name", type="string", length=45, options={"fixed" = true})
      */
-    private $actionName;
+    private $actionName = '';
 
     /**
      * @var string
      * @ORM\Column(name="action_icon", type="string", length=45)
      */
-    private $actionIcon;
+    private $actionIcon = '';
 
     /**
      * @var integer
      * @ORM\Column(name="action_rank", type="integer")
      */
-    private $actionRank;
+    private $actionRank = 1;
 
     /**
      * @var integer
      * @ORM\Column(name="action_menu", type="integer")
      */
-    private $actionMenu;
+    private $actionMenu = self::MENU_INVALID;
 
     /**
      * @var Component
@@ -73,5 +76,120 @@ class Action
      * @ORM\JoinColumn(name="controller_class", referencedColumnName="component_class")
      */
     private $actionComponent;
+
+
+
+    /**
+     * @return string
+     */
+    public function getActionID()
+    {
+        return $this->actionID;
+    }
+
+    /**
+     * @param string $actionID
+     */
+    public function setActionID($actionID)
+    {
+        $this->actionID = $actionID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionMethod()
+    {
+        return $this->actionMethod;
+    }
+
+    /**
+     * @param string $actionMethod
+     */
+    public function setActionMethod($actionMethod)
+    {
+        $this->actionMethod = $actionMethod;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->actionName;
+    }
+
+    /**
+     * @param string $actionName
+     */
+    public function setActionName($actionName)
+    {
+        $this->actionName = $actionName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionIcon()
+    {
+        return $this->actionIcon;
+    }
+
+    /**
+     * @param string $actionIcon
+     */
+    public function setActionIcon($actionIcon)
+    {
+        $this->actionIcon = $actionIcon;
+    }
+
+    /**
+     * @return int
+     */
+    public function getActionRank()
+    {
+        return $this->actionRank;
+    }
+
+    /**
+     * @param int $actionRank
+     */
+    public function setActionRank($actionRank)
+    {
+        $this->actionRank = $actionRank;
+    }
+
+    /**
+     * @return int
+     */
+    public function getActionMenu()
+    {
+        return $this->actionMenu;
+    }
+
+    /**
+     * @param int $actionMenu
+     */
+    public function setActionMenu($actionMenu)
+    {
+        $this->actionMenu = $actionMenu;
+    }
+
+    /**
+     * @return Component
+     */
+    public function getActionComponent()
+    {
+        return $this->actionComponent;
+    }
+
+    /**
+     * @param Component $actionComponent
+     */
+    public function setActionComponent($actionComponent)
+    {
+        $this->actionComponent = $actionComponent;
+    }
+
 
 }

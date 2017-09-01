@@ -446,4 +446,30 @@ class AdminerController extends AdminBaseController
     }
 
 
+
+    /**
+     *  ACL Registry
+     *
+     * @return array
+     */
+    public static function ComponentRegistry()
+    {
+        $item = self::BuildComponentInfo(__CLASS__, '管理员管理', 'admin/adminer', 1, 'user', 6);
+
+        $item['component_actions']['index'] = self::BuildActionInfo('index', '管理员列表', 1, 'bars', 9);
+        $item['component_actions']['add'] = self::BuildActionInfo('add', '新增管理员', 1, 'user-plus');
+
+        $item['component_actions']['active'] = self::BuildActionInfo('active', '激活管理员账号');
+        $item['component_actions']['lock'] = self::BuildActionInfo('lock', '锁定管理员账号');
+        $item['component_actions']['unlock'] = self::BuildActionInfo('unlock', '解锁管理员账号');
+        $item['component_actions']['profile'] = self::BuildActionInfo('profile', '修改管理员账号');
+        $item['component_actions']['level'] = self::BuildActionInfo('level', '修改管理员等级');
+        $item['component_actions']['password'] = self::BuildActionInfo('password', '修改管理员密码');
+        $item['component_actions']['expired'] = self::BuildActionInfo('expired', '修改管理账号过期时间');
+        $item['component_actions']['group'] = self::BuildActionInfo('group', '修改管理分组信息');
+
+        return $item;
+    }
+
+
 }
