@@ -21,6 +21,24 @@ class ComponentManager extends BaseManager
 {
 
     /**
+     * @return integer
+     */
+    public function getComponentsCount()
+    {
+        return $this->getEntityManager()->getRepository(Component::class)->getComponentsCount();
+    }
+
+    /**
+     * @param int $page
+     * @param int $size
+     * @return Component[]
+     */
+    public function getComponentsByLimitPage($page = 1, $size = 10)
+    {
+        return $this->getEntityManager()->getRepository(Component::class)->getComponentsByLimitPage($page, $size);
+    }
+
+    /**
      * @param string $class
      * @return null|object|Component
      */

@@ -10,51 +10,44 @@
 namespace Admin\Controller;
 
 
-use Admin\Entity\AclGroup;
-use Ramsey\Uuid\Uuid;
+use Admin\Exception\RuntimeException;
+use Application\View\Helper\Pagination;
+
 
 class ComponentController extends AdminBaseController
 {
 
+    /**
+     * Display components list
+     */
     public function indexAction()
     {
+        $size = 10;
+        $page = (int)$this->params()->fromRoute('key', 1);
+        if ($page < 1) { $page = 1; }
 
         $componentManager = $this->appAdminComponentManager();
-        $groupManager = $this->appAdminGroupManager();
+        $count = $componentManager->getComponentsCount();
 
-        $defaultGroup = $groupManager->getDefaultGroup();
-
-        $component = $componentManager->getComponentByClass(__CLASS__);
-
-        $actions = $component->getComponentActions();
-        $selectAction = null;
-        foreach ($actions as $action) {
-            if ('async' == $action->getActionMethod()) {
-                $selectAction = $action;
-                break;
-            }
+        $pagination = $this->appViewHelperManager(Pagination::class);
+        if (!$pagination instanceof Pagination) {
+            throw new RuntimeException('Invalid view helper pagination');
         }
 
-        $aclGroupManager = $this->appAdminAclGroupManager();
+        $pageUrlTpl = $this->url()->fromRoute('admin/component', ['action' => 'index', 'key' => '%d']);
+        $pagination->setPage($page)->setSize($size)->setCount($count)->setUrlTpl($pageUrlTpl);
 
-        $aclGroup = new AclGroup();
-        $aclGroup->setAclID(Uuid::uuid1()->toString());
-        $aclGroup->setAclGroup($defaultGroup);
-        $aclGroup->setAclAction($selectAction);
-        $aclGroup->setAclStatus(AclGroup::STATUS_ALLOWED);
+        $entites = $componentManager->getComponentsByLimitPage($page, $size);
 
-        $aclGroupManager->getEntityManager()->persist($aclGroup);
-        $aclGroupManager->getEntityManager()->flush();
-
-        echo 'done';
-
-        return $this->getResponse();
-
-
+        $this->addResultData('components', $entites);
+        $this->addResultData('activeID', __METHOD__);
 
     }
 
 
+    /**
+     * Async register system all component
+     */
     public function asyncAction()
     {
         ignore_user_abort(true);
