@@ -87,7 +87,7 @@ $this->inlineScript()->captureEnd();
                 $i=1;
                 foreach ($data->components as $component) {
                     if (!$component instanceof \Admin\Entity\Component) { continue; }
-                    $pk = urlencode($component->getComponentClass());
+                    $pk = base64_encode($component->getComponentClass());
                 ?>
 
                     <tr>
@@ -108,7 +108,7 @@ $this->inlineScript()->captureEnd();
                                         </li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a href="<?php echo $this->url('admin/component', ['action' => 'actions', 'key' => $pk]); ?>" data-toggle="modal" data-target="#pageModal">
+                                            <a href="<?php echo $this->url('admin/component', ['action' => 'detail', 'key' => $pk]); ?>" data-toggle="modal" data-target="#pageModal">
                                                 <i class="fa fa-list fa-fw" aria-hidden="true"></i> 功能接口列表
                                             </a>
                                         </li>

@@ -52,7 +52,14 @@ class Module
             return ;
         }
 
-        $event->getViewModel()->setTemplate('layout/admin_layout');
+        $request = $event->getRequest();
+        if($request instanceof \Zend\Http\Request) {
+            if ($request->isXmlHttpRequest()) {
+                $event->getViewModel()->setTerminal(true);
+            } else {
+                $event->getViewModel()->setTemplate('layout/admin_layout');
+            }
+        }
 
     }
 

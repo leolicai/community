@@ -1,0 +1,47 @@
+<?php
+if(!$data->component instanceof \Admin\Entity\Component) {
+    throw new \Admin\Exception\RuntimeException('No component information');
+}
+?>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title" id="pageModalLabel"><?php echo $data->component->getComponentName(); ?> <small>接口列表</small></h4>
+</div>
+
+<div class="modal-body">
+
+    <table class="table table-striped">
+        <tr>
+            <th>名称</th>
+            <th>操作</th>
+        </tr>
+        <?php
+        $actions = $data->component->getComponentActions();
+        foreach ($actions as $obj) {
+            if ($obj instanceof \Admin\Entity\Action) {
+                ?>
+                <tr>
+                    <td>
+                        <i class="fa fa-<?php echo $obj->getActionIcon(); ?> fa-fw"></i>
+                        <?php echo $obj->getActionName(); ?><br>
+                        <small><em><?php echo $this->url('admin/component', ['action' => $obj->getActionMethod()]); ?></em></small>
+                    </td>
+                    <td>
+                        <a class="remove-action" href="<?php echo $this->url('admin/component', ['action' => 'remove', 'key' => $obj->getActionId()]); ?>">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+            <?php } } ?>
+    </table>
+
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>

@@ -10,6 +10,8 @@
 namespace Admin\Controller;
 
 
+use Admin\Entity\Component;
+use Admin\Exception\InvalidArgumentException;
 use Admin\Exception\RuntimeException;
 use Application\View\Helper\Pagination;
 
@@ -42,6 +44,26 @@ class ComponentController extends AdminBaseController
         $this->addResultData('components', $entites);
         $this->addResultData('activeID', __METHOD__);
 
+    }
+
+
+    /**
+     * Page for component detail information
+     */
+    public function detailAction()
+    {
+        $componentClass = base64_decode($this->params()->fromRoute('key', ''));
+
+        $componentManager = $this->appAdminComponentManager();
+        $component = $componentManager->getComponentByClass($componentClass);
+
+        if (!$component instanceof Component) {
+            throw new InvalidArgumentException('Invalid component identity');
+        }
+
+        $this->addResultData('component', $component);
+
+        $this->layout()->setTerminal(true);
     }
 
 
