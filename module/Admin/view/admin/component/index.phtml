@@ -45,21 +45,33 @@ $(function () {
             return false;
         }
 
-        var url = $(this).attr("href");
+        var target = $(this);
+        var syncPath = target.attr("href");
 
-        $(this).children("i").addClass("fa-spin");
-        $(this).attr("href", "#");
-        $(this).attr("disabled", true);
+        target.children("i").addClass("fa-spin");
+        target.attr("href", "#");
+        target.attr("disabled", true);
 
         //Ajax post
-        $.get(url, function (dt) {
-            if (!dt.success) {
-                alert(dt.message);
-            } else {
+        $.ajax({
+            url:syncPath,
+            async: true,
+            cache: false,
+            global: false,
+            type: 'GET',
+            dataType: 'json',
+            complete: function(jqXHR, textStatus) {
+                target.children("i").removeClass("fa-spin")
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('同步失败, 请稍后重试!');
+                location.reload();
+            },
+            success: function(data, textStatus, jqXHR) {
                 location.reload();
             }
-        }, 'json');
-
+        });
+        
         return false;
     });
 });

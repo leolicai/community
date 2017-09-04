@@ -14,11 +14,11 @@ use Admin\Entity\Component;
 use Admin\Exception\InvalidArgumentException;
 use Admin\Exception\RuntimeException;
 use Application\View\Helper\Pagination;
+use Zend\View\Model\ViewModel;
 
 
 class ComponentController extends AdminBaseController
 {
-
     /**
      * Display components list
      */
@@ -63,7 +63,14 @@ class ComponentController extends AdminBaseController
 
         $this->addResultData('component', $component);
 
-        $this->layout()->setTerminal(true);
+        $viewModel = new ViewModel();
+        if(!$viewModel->terminate()) {
+            $this->appLogger()->info("no disabled layout. now disabled");
+        }
+
+        //$this->layout()->setTerminal(true); // Can't disable layout
+        $viewModel->setTerminal(true);
+        return $viewModel;
     }
 
 
@@ -90,8 +97,6 @@ class ComponentController extends AdminBaseController
 
         $componentManager = $this->appAdminComponentManager();
         $componentManager->async($items);
-
-        $this->layout()->setTerminal(true);
 
         if (!$this->getRequest()->isXmlHttpRequest()) {
             echo json_encode($this->getResultData(), JSON_UNESCAPED_UNICODE);

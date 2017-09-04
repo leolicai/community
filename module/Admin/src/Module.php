@@ -54,9 +54,7 @@ class Module
 
         $request = $event->getRequest();
         if($request instanceof \Zend\Http\Request) {
-            if ($request->isXmlHttpRequest()) {
-                $event->getViewModel()->setTerminal(true);
-            } else {
+            if (!$request->isXmlHttpRequest()) {
                 $event->getViewModel()->setTemplate('layout/admin_layout');
             }
         }

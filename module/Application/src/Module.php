@@ -66,6 +66,14 @@ class Module
 
         $request = $event->getRequest();
         if($request instanceof \Zend\Http\Request) {
+
+            $disabledLayout = $event->getViewModel()->terminate();
+            if ($disabledLayout) {
+                $logger->info(__METHOD__ . " layout disabled by action");
+            } else {
+                $logger->info(__METHOD__ . ' action allowed layout');
+            }
+
             $headerAccept = $request->getHeader('Accept');
             if ($headerAccept) {
 
@@ -99,10 +107,11 @@ class Module
                 }
 
                 if ('text/html' == $acceptValue || 'text/plain' == $acceptValue) {
-
+                    $logger->info(__METHOD__ . ' template: ' . $event->getViewModel()->getTemplate());
                     $event->getViewModel()->setVariables($resultData);
                     foreach($event->getViewModel()->getChildren() as $child) {
                         if ($child instanceof \Zend\View\Model\ViewModel) {
+                            $logger->info(__METHOD__ . ' child template: ' . $child->getTemplate());
                             $child->setVariables($resultData);
                         }
                     }
