@@ -10,6 +10,7 @@ namespace Application;
 
 
 use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 
 class Module
@@ -55,37 +56,24 @@ class Module
     public function onGlobalDispatchListener(MvcEvent $event)
     {
         $serviceManager = $event->getApplication()->getServiceManager();
-        $logger = $serviceManager->get('AppLogger');
-        //$logger->info('The is a global render listener');
+        //$logger = $serviceManager->get('AppLogger');
 
         $resultData = $event->getTarget()->getResultData();
         $appConfig = $serviceManager->get('ApplicationConfig');
         $resultData['env'] = isset($appConfig['application']['env']) ? $appConfig['application']['env'] : 'development';
 
-        //$logger->debug(json_encode($resultData));
-
         $request = $event->getRequest();
         if($request instanceof \Zend\Http\Request) {
-
-            $disabledLayout = $event->getViewModel()->terminate();
-            if ($disabledLayout) {
-                $logger->info(__METHOD__ . " layout disabled by action");
-            } else {
-                $logger->info(__METHOD__ . ' action allowed layout');
-            }
 
             $headerAccept = $request->getHeader('Accept');
             if ($headerAccept) {
 
                 $fieldValue = $headerAccept->getFieldValue();
-                //$logger->debug('Accept string:' . $fieldValue);
 
                 $fieldValues = explode(',', $fieldValue);
                 $firstFieldValue = array_shift($fieldValues);
 
                 $acceptValue = @strtolower(str_replace(' ', '', $firstFieldValue));
-                //$logger->debug("accept response type:" . $acceptValue);
-
 
                 if ('application/json' == $acceptValue) {
                     $headerContentType = new \Zend\Http\Header\ContentType();
@@ -107,12 +95,27 @@ class Module
                 }
 
                 if ('text/html' == $acceptValue || 'text/plain' == $acceptValue) {
-                    $logger->info(__METHOD__ . ' template: ' . $event->getViewModel()->getTemplate());
-                    $event->getViewModel()->setVariables($resultData);
-                    foreach($event->getViewModel()->getChildren() as $child) {
-                        if ($child instanceof \Zend\View\Model\ViewModel) {
-                            $logger->info(__METHOD__ . ' child template: ' . $child->getTemplate());
-                            $child->setVariables($resultData);
+
+                    if ($request->isXmlHttpRequest()) {
+                        $result = $event->getResult();
+                        if (!$result instanceof \Zend\View\Model\ViewModel) {
+                            $result = new \Zend\View\Model\ViewModel();
+                        }
+
+                        $result->setTerminal(true);
+                        $result->setVariables($resultData);
+
+                        $event->setViewModel($result);
+                        $event->setResult($result);
+                    } else {
+                        $model = $event->getViewModel();
+                        $model->setVariables($resultData);
+                        if ($model->hasChildren()) {
+                            foreach($model->getChildren() as $child) {
+                                if ($child instanceof \Zend\View\Model\ViewModel) {
+                                    $child->setVariables($resultData);
+                                }
+                            }
                         }
                     }
 
