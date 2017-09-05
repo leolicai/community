@@ -78,7 +78,11 @@ class AclController extends AdminBaseController
     {
         $this->addResultData('activeID', __CLASS__);
 
-        $groupID = $this->params()->fromRoute('key', '');
+
+
+        $key = $this->params()->fromRoute('key', '');
+        $keys = explode('_', $key);
+        $groupID = array_shift($keys);
 
         $groupManager = $this->appAdminGroupManager();
         $group = $groupManager->getGroupByID($groupID);
@@ -93,15 +97,8 @@ class AclController extends AdminBaseController
 
         $this->addResultData('group', $group);
 
-        $groupAcls = $group->getGroupAcls();
-        $acls = [];
-        foreach($groupAcls as $acl) {
-            $acls[$acl->getAclAction()->getActionID()] = $acl->getAclStatus();
-        }
-        $this->addResultData('acl', $acls);
-
         $size = 2;
-        $page = (int)$this->params()->fromRoute('key', 1);
+        $page = (int)array_shift($keys);
         if ($page < 1) { $page = 1; }
 
         $componentManager = $this->appAdminComponentManager();
@@ -112,7 +109,7 @@ class AclController extends AdminBaseController
             throw new RuntimeException('Invalid view helper pagination');
         }
 
-        $pageUrlTpl = $this->url()->fromRoute('admin/acl', ['action' => 'groupacl', 'key' => '%d']);
+        $pageUrlTpl = $this->url()->fromRoute('admin/acl', ['action' => 'groupacl', 'key' => $groupID . '_%d']);
         $pagination->setPage($page)->setSize($size)->setCount($count)->setUrlTpl($pageUrlTpl);
 
         $entities = $componentManager->getComponentsByLimitPage($page, $size);

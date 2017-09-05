@@ -81,10 +81,18 @@ class Group
     protected $groupCreated;
 
     /**
-     * @var AclGroup[] | ArrayCollection
-     * @ORM\OneToMany(targetEntity="Admin\Entity\AclGroup", mappedBy="aclGroup", cascade={"remove"})
+     * Group Action Access Control Logic
+     *
+     * @var Action[] | ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Admin\Entity\Action", inversedBy="actionGroups")
+     * @ORM\JoinTable(
+     *     name="sys_acl_group",
+     *     joinColumns={@ORM\JoinColumn(name="acl_group_id", referencedColumnName="group_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="acl_action_id", referencedColumnName="action_id")}
+     * )
      */
-    protected $groupAcls;
+    protected $groupActions;
 
 
     /**
@@ -97,7 +105,7 @@ class Group
     public function __construct()
     {
         $this->groupAdminers = new ArrayCollection();
-        $this->groupAcls = new ArrayCollection();
+        $this->groupActions = new ArrayCollection();
     }
 
     /**
@@ -197,20 +205,21 @@ class Group
     }
 
     /**
-     * @return AclGroup[]|ArrayCollection
+     * @return Action[]|ArrayCollection
      */
-    public function getGroupAcls()
+    public function getGroupActions()
     {
-        return $this->groupAcls;
+        return $this->groupActions;
     }
 
     /**
-     * @param AclGroup[]|ArrayCollection $groupAcls
+     * @param Action[]|ArrayCollection $groupActions
      */
-    public function setGroupAcls($groupAcls)
+    public function setGroupActions($groupActions)
     {
-        $this->groupAcls = $groupAcls;
+        $this->groupActions = $groupActions;
     }
+
 
 
 

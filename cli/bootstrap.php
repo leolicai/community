@@ -36,7 +36,7 @@ $dbConfig = $config['doctrine']['connection']['orm_default']['params'];
 $isDevMode = true;
 $emConfig = Setup::createAnnotationMetadataConfiguration(
     [
-        'WeChatEntity' => __DIR__ . "/../module/WeChat/src/Entity",
+        //'WeChatEntity' => __DIR__ . "/../module/WeChat/src/Entity",
         'AdminEntity' => __DIR__ . "/../module/Admin/src/Entity",
     ],
     $isDevMode,

@@ -12,6 +12,8 @@ namespace Admin\Service;
 
 use Admin\Entity\Action;
 use Admin\Entity\Component;
+use Admin\Repository\ActionRepository;
+use Admin\Repository\ComponentRepository;
 use Application\Service\BaseManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
@@ -21,11 +23,27 @@ class ComponentManager extends BaseManager
 {
 
     /**
+     * @return ComponentRepository | \Doctrine\ORM\EntityRepository
+     */
+    private function getComponentRepository()
+    {
+        return $this->getEntityManager()->getRepository(Component::class);
+    }
+
+    /**
+     * @return ActionRepository | \Doctrine\ORM\EntityRepository
+     */
+    private function getActionRepository()
+    {
+        return $this->getEntityManager()->getRepository(Action::class);
+    }
+
+    /**
      * @return integer
      */
     public function getComponentsCount()
     {
-        return $this->getEntityManager()->getRepository(Component::class)->getComponentsCount();
+        return $this->getComponentRepository()->getComponentsCount();
     }
 
     /**
@@ -35,7 +53,7 @@ class ComponentManager extends BaseManager
      */
     public function getComponentsByLimitPage($page = 1, $size = 10)
     {
-        return $this->getEntityManager()->getRepository(Component::class)->getComponentsByLimitPage($page, $size);
+        return $this->getComponentRepository()->getComponentsByLimitPage($page, $size);
     }
 
     /**
@@ -44,7 +62,7 @@ class ComponentManager extends BaseManager
      */
     public function getComponentByClass($class)
     {
-        return $this->getEntityManager()->getRepository(Component::class)->find($class);
+        return $this->getComponentRepository()->find($class);
     }
 
 
@@ -53,7 +71,7 @@ class ComponentManager extends BaseManager
      */
     public function getAllComponent()
     {
-        return $this->getEntityManager()->getRepository(Component::class)->findAll();
+        return $this->getComponentRepository()->findAll();
     }
 
 
@@ -63,7 +81,7 @@ class ComponentManager extends BaseManager
      */
     public function getAction($actionID)
     {
-        return $this->getEntityManager()->getRepository(Action::class)->find($actionID);
+        return $this->getActionRepository()->find($actionID);
     }
 
 

@@ -11,6 +11,7 @@ namespace Admin\Service;
 
 
 use Admin\Entity\Adminer;
+use Admin\Repository\AdminerRepository;
 use Application\Service\BaseManager;
 use Doctrine\ORM\EntityManager;
 
@@ -19,12 +20,20 @@ class AdminerManager extends BaseManager
 {
 
     /**
+     * @return AdminerRepository | \Doctrine\ORM\EntityRepository
+     */
+    private function getAdminerRepository()
+    {
+        return $this->getEntityManager()->getRepository(Adminer::class);
+    }
+
+    /**
      * @param $adminID
      * @return Adminer|null|object
      */
     public function getAdminerByID($adminID)
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->find($adminID);
+        return $this->getAdminerRepository()->find($adminID);
     }
 
 
@@ -34,7 +43,7 @@ class AdminerManager extends BaseManager
      */
     public function getAdminerByEmail($email)
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->findOneBy(['adminEmail' => $email]);
+        return $this->getAdminerRepository()->findOneBy(['adminEmail' => $email]);
     }
 
 
@@ -43,7 +52,7 @@ class AdminerManager extends BaseManager
      */
     public function getAdminersCount()
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersCount();
+        return $this->getAdminerRepository()->getAdminersCount();
     }
 
     /**
@@ -53,7 +62,7 @@ class AdminerManager extends BaseManager
      */
     public function getAdminersByLimitPage($page = 1, $size = 100)
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->getAdminersByLimitPage($page, $size);
+        return $this->getAdminerRepository()->getAdminersByLimitPage($page, $size);
     }
 
     /**
@@ -61,7 +70,7 @@ class AdminerManager extends BaseManager
      */
     public function getAllAdminers()
     {
-        return $this->getEntityManager()->getRepository(Adminer::class)->findBy(['adminDefault' => Adminer::DEFAULT_OTHER]);
+        return $this->getAdminerRepository()->findBy(['adminDefault' => Adminer::DEFAULT_OTHER]);
     }
 
 

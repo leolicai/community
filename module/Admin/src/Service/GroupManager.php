@@ -11,6 +11,7 @@ namespace Admin\Service;
 
 
 use Admin\Entity\Group;
+use Admin\Repository\GroupRepository;
 use Application\Service\BaseManager;
 
 
@@ -18,11 +19,19 @@ class GroupManager extends BaseManager
 {
 
     /**
+     * @return GroupRepository | \Doctrine\ORM\EntityRepository
+     */
+    private function getGroupRepository()
+    {
+        return $this->getEntityManager()->getRepository(Group::class);
+    }
+
+    /**
      * @return Group|null|object
      */
     public function getDefaultGroup()
     {
-        return $this->getEntityManager()->getRepository(Group::class)->findOneBy(['groupDefault' => Group::DEFAULT_GROUP]);
+        return $this->getGroupRepository()->findOneBy(['groupDefault' => Group::DEFAULT_GROUP]);
     }
 
     /**
@@ -31,7 +40,7 @@ class GroupManager extends BaseManager
      */
     public function getGroupByID($groupID)
     {
-        return $this->getEntityManager()->getRepository(Group::class)->find($groupID);
+        return $this->getGroupRepository()->find($groupID);
     }
 
     /**
@@ -40,7 +49,7 @@ class GroupManager extends BaseManager
      */
     public function getGroupByName($name)
     {
-        return $this->getEntityManager()->getRepository(Group::class)->findOneBy(['groupName' => $name]);
+        return $this->getGroupRepository()->findOneBy(['groupName' => $name]);
     }
 
     /**
@@ -48,7 +57,7 @@ class GroupManager extends BaseManager
      */
     public function getGroupsCount()
     {
-        return $this->getEntityManager()->getRepository(Group::class)->getGroupsCount();
+        return $this->getGroupRepository()->getGroupsCount();
     }
 
     /**
@@ -58,7 +67,7 @@ class GroupManager extends BaseManager
      */
     public function getGroupsByLimitPage($page = 1, $size = 10)
     {
-        return $this->getEntityManager()->getRepository(Group::class)->getGroupsByLimitPage($page, $size);
+        return $this->getGroupRepository()->getGroupsByLimitPage($page, $size);
     }
 
 
@@ -67,7 +76,7 @@ class GroupManager extends BaseManager
      */
     public function getAllGroups()
     {
-        return $this->getEntityManager()->getRepository(Group::class)->findAll();
+        return $this->getGroupRepository()->findAll();
     }
 
 
