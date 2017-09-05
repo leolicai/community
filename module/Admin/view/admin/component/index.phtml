@@ -8,7 +8,6 @@ echo <<<JS
 
 $(function () {
 
-    // clean modal data force every time load newest data from server.
     $("#pageModal").on("hidden.bs.modal", function() {
         $(this).removeData("bs.modal");
     });
@@ -16,11 +15,27 @@ $(function () {
     $("body").on("click", ".remove-action", function () {
         var tr = $(this).parent().parent();
         if (confirm("确定要删除么? 操作不可恢复!")) {
-            var url = $(this).attr("href");
+            var removeUrl = $(this).attr("href");
             $(this).blur();
-            $.get(url, function (dt) {
-                tr.hide();
+            
+            $.ajax({
+                url: removeUrl,
+                async: true,
+                cache: false,
+                global: false,
+                type: 'GET',
+                dataType: 'json',
+                complete: function(jqXHR, textStatus) {
+                
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('删除失败, 请稍后重试!');
+                },
+                success: function(data, textStatus, jqXHR) {
+                    tr.hide();
+                }
             });
+            
             return false;
         } else {
             $(this).blur();
@@ -30,17 +45,38 @@ $(function () {
 
 
     $(".danger-link").click(function () {
+        var tr = $(this).parent().parent().parent().parent().parent().parent();
+        var link = $(this).attr("href");
         if (confirm("确定要删除么? 操作不可恢复!")) {
-            return true;
+            
+            $.ajax({
+                url: link,
+                async: true,
+                cache: false,
+                global: false,
+                type: 'GET',
+                dataType: 'json',
+                complete: function(jqXHR, textStatus) {
+                
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('删除失败, 请稍后重试!');
+                },
+                success: function(data, textStatus, jqXHR) {
+                    tr.hide();
+                }
+            });
+            
+            return false;
         } else {
             $(this).blur();
             return false;
         }
+        return false;
     });
 
 
-
-    $("#sync-link").click(function(){
+    $("#async-link").click(function(){
         if ("disabled" == $(this).attr("disabled")) {
             return false;
         }
@@ -52,7 +88,6 @@ $(function () {
         target.attr("href", "#");
         target.attr("disabled", true);
 
-        //Ajax post
         $.ajax({
             url:syncPath,
             async: true,
@@ -84,7 +119,7 @@ $this->inlineScript()->captureEnd();
     <div class="row">
         <div class="col-lg-12">
             <p>
-                <a id="sync-link" class="btn btn-default" href="<?php echo $this->url('admin/component', ['action'=>'async']); ?>"><i class="fa fa-refresh fa-fw" ></i> Async component</a>
+                <a id="async-link" class="btn btn-default" href="<?php echo $this->url('admin/component', ['action'=>'async']); ?>"><i class="fa fa-refresh fa-fw" ></i> Async component</a>
             </p>
 
             <table class="table table-striped">

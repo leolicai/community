@@ -58,6 +58,48 @@ class ComponentManager extends BaseManager
 
 
     /**
+     * @param $actionID
+     * @return null|object|Action
+     */
+    public function getAction($actionID)
+    {
+        return $this->getEntityManager()->getRepository(Action::class)->find($actionID);
+    }
+
+
+    /**
+     * Remove a component will been remove:
+     *
+     * i: component's all action
+     * ii: action's all acl
+     * iii: component self
+     *
+     * @param Component $component
+     */
+    public function removeComponent(Component $component)
+    {
+        $this->getEntityManager()->remove($component);
+        $this->getEntityManager()->flush();
+    }
+
+
+    /**
+     * Remove a action will been remove:
+     *
+     * i: action with group acl one to many relation
+     * ii: action with administrator acl one to many relation
+     * iii: action self
+     *
+     * @param Action $action
+     */
+    public function removeAction(Action $action)
+    {
+        $this->getEntityManager()->remove($action);
+        $this->getEntityManager()->flush();
+    }
+
+
+    /**
      * @param array $items
      */
     public function async($items = [])

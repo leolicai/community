@@ -10,6 +10,7 @@
 namespace Admin\Controller;
 
 
+use Admin\Entity\Action;
 use Admin\Entity\Component;
 use Admin\Exception\InvalidArgumentException;
 use Admin\Exception\RuntimeException;
@@ -62,6 +63,42 @@ class ComponentController extends AdminBaseController
         }
 
         $this->addResultData('component', $component);
+    }
+
+    /**
+     * Remove a component from registered components
+     */
+    public function deleteAction()
+    {
+        $componentClass = base64_decode($this->params()->fromRoute('key', ''));
+
+        $componentManager = $this->appAdminComponentManager();
+        $component = $componentManager->getComponentByClass($componentClass);
+
+        if (!$component instanceof Component) {
+            throw new InvalidArgumentException('Invalid component identity');
+        }
+
+        $componentManager->removeComponent($component);
+    }
+
+
+    /**
+     * Remove a action from registered actions
+     */
+    public function removeAction()
+    {
+        $actionID = $this->params()->fromRoute('key', '');
+
+        $componentManager = $this->appAdminComponentManager();
+
+        $action = $componentManager->getAction($actionID);
+
+        if (! $action instanceof Action) {
+            throw new InvalidArgumentException('Invalid action identity');
+        }
+
+        $componentManager->removeAction($action);
     }
 
 
