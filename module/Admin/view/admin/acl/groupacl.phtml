@@ -1,0 +1,89 @@
+<?php
+
+use \Admin\Entity\AclGroup;
+
+if (! $data->group instanceof \Admin\Entity\Group) {
+    throw new \Admin\Exception\RuntimeException('Need a group object.');
+}
+
+$this->adminPageTitleBar('分组权限配置', '分组权限: ' . $data->group->getGroupName());
+
+//$this->adminSideTreeMenu()->setActiveID($activeID);
+
+$this->inlineScript()->captureStart();
+echo <<<JS
+
+$(function () {
+    
+    $(".action-status").change(function () {
+        var aclUrl = $("#aclApi").val();
+        var actionID = $(this).attr("name");
+        alert(aclUrl + ' | ' + actionID);
+        //$(this).blur();
+        //$.get(url, function (dt) {
+            //if(!dt.success) {
+                //alert('System error!' + "\\n" + dt.message);
+            //}
+        //}, 'json');
+    });
+});
+
+JS;
+$this->inlineScript()->captureEnd();
+
+?>
+
+<div class="row">
+    <?php
+    $list = AclGroup::AclStatusList();
+    foreach ($data->components as $component) {
+        if ($component instanceof \Admin\Entity\Component) {
+    ?>
+        <input id="aclApi" type="hidden" value="<?php echo $this->url('admin/acl', ['action' => 'groupacled', 'key' => $data->group->getGroupID()]); ?>">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-<?php echo $component->getComponentIcon(); ?> fa-fw"></i>
+                    <?php echo $component->getComponentName(); ?>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <?php
+                        $actions = $component->getComponentActions();
+                        foreach ($actions as $action) {
+                            $actionID = $action->getActionID();
+                        ?>
+                            <tr>
+                                <td>
+                                    <i class="fa fa-<?php echo $action->getActionIcon(); ?> fa-fw"></i>
+                                    <?php echo $action->getActionName(); ?>
+                                </td>
+                                <td class="text-right">
+                                    <select name="<?php echo $actionID; ?>" class="action-status">
+                                        <?php
+                                        if(!array_key_exists($actionID, $data->acl)) {
+                                            foreach ($list as $status => $label) {
+                                        ?>
+                                            <option value="<?php echo $status; ?>"<?php echo $status == AclGroup::STATUS_FORBIDDEN? ' selected':''; ?>><?php echo $label; ?></option>
+                                        <?php
+                                            }
+                                        } else {
+                                            foreach ($list as $status => $label) {
+                                        ?>
+                                            <option value="<?php echo $status; ?>"<?php echo $status == $data->acl[$actionID] ? ' selected' : ''; ?>><?php echo $label; ?></option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        <?php }  ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <?php } } ?>
+
+</div>
+<?php echo $this->pagination()->render(); ?>

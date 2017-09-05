@@ -24,6 +24,7 @@ return [
             Controller\AdminerController::class => InvokableFactory::class,
             Controller\GroupController::class => InvokableFactory::class,
             Controller\ComponentController::class => InvokableFactory::class,
+            Controller\AclController::class => InvokableFactory::class,
         ],
     ],
 
@@ -191,6 +192,22 @@ return [
                             ],
                             'defaults' => [
                                 'controller' => Controller\ComponentController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+                    ],
+
+                    'acl' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'acl[/:action[/:key]][:suffix]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_\-]+',
+                                'key' => '[a-zA-Z0-9_\-]+',
+                                'suffix' => '(/|.html)',
+                            ],
+                            'defaults' => [
+                                'controller' => Controller\AclController::class,
                                 'action' => 'index',
                             ],
                         ],

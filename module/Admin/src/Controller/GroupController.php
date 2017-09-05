@@ -234,12 +234,12 @@ class GroupController extends AdminBaseController
     {
         $item = self::BuildComponentInfo(__CLASS__, '分组管理', 'admin/group', 1, 'users', 4);
 
-        $item['component_actions']['index'] = self::BuildActionInfo('index', '分组列表', 1, 'bars', 9);
+        $item['component_actions']['index'] = self::BuildActionInfo('index', '查看分组列表', 1, 'bars', 9);
         $item['component_actions']['add'] = self::BuildActionInfo('add', '新增分组', 1, 'plus');
 
         $item['component_actions']['edit'] = self::BuildActionInfo('edit', '修改分组');
         $item['component_actions']['delete'] = self::BuildActionInfo('delete', '删除分组');
-        $item['component_actions']['adminer'] = self::BuildActionInfo('adminer', '分组成员配置');
+        $item['component_actions']['adminer'] = self::BuildActionInfo('adminer', '配置分组成员');
 
         return $item;
     }

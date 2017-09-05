@@ -53,6 +53,16 @@ class AclGroup
      */
     private $aclAction;
 
+
+    public static function AclStatusList()
+    {
+        return [
+            self::STATUS_ALLOWED => '允许访问',
+            self::STATUS_FORBIDDEN => '禁止访问',
+        ];
+    }
+
+
     /**
      * @return string
      */

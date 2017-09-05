@@ -2,7 +2,7 @@
 use Admin\Form\AdminerForm;
 
 $this->adminPageTitleBar('修改成员信息');
-//$this->adminSideTreeMenu()->setActiveId($activeID);
+//$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 $data->form->get(AdminerForm::FIELD_EMAIL)->setAttributes([
     'class' => 'form-control',

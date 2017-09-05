@@ -6,7 +6,7 @@ if (!$data->group instanceof \Admin\Entity\Group) {
 
 $this->adminPageTitleBar('分组成员配置', $data->group->getGroupName());
 
-//$this->adminSideTreeMenu()->setActiveId($activeID);
+//$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 $joined = $data->group->getGroupAdminers();
 

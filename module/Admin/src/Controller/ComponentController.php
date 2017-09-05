@@ -40,9 +40,9 @@ class ComponentController extends AdminBaseController
         $pageUrlTpl = $this->url()->fromRoute('admin/component', ['action' => 'index', 'key' => '%d']);
         $pagination->setPage($page)->setSize($size)->setCount($count)->setUrlTpl($pageUrlTpl);
 
-        $entites = $componentManager->getComponentsByLimitPage($page, $size);
+        $entities = $componentManager->getComponentsByLimitPage($page, $size);
 
-        $this->addResultData('components', $entites);
+        $this->addResultData('components', $entities);
         $this->addResultData('activeID', __METHOD__);
 
     }
@@ -136,7 +136,7 @@ class ComponentController extends AdminBaseController
 
 
     /**
-     *  ACL 登记
+     *  ACL Registry
      *
      * @return array
      */
@@ -144,7 +144,11 @@ class ComponentController extends AdminBaseController
     {
         $item = self::BuildComponentInfo(__CLASS__, '系统组件管理', 'admin/component', 1, 'cubes');
 
-        $item['component_actions']['index'] = self::BuildActionInfo('index', '系统组件列表', 1, 'bars');
+        $item['component_actions']['index'] = self::BuildActionInfo('index', '查看系统组件列表', 1, 'bars');
+
+        $item['component_actions']['detail'] = self::BuildActionInfo('detail', '查看组件详情');
+        $item['component_actions']['delete'] = self::BuildActionInfo('delete', '删除组件');
+        $item['component_actions']['remove'] = self::BuildActionInfo('remove', '删除组件功能');
         $item['component_actions']['async'] = self::BuildActionInfo('async', '同步系统组件');
 
         return $item;
