@@ -454,7 +454,7 @@ class AdminerController extends AdminBaseController
      */
     public static function ComponentRegistry()
     {
-        $item = self::BuildComponentInfo(__CLASS__, '管理员管理', 'admin/adminer', 1, 'user', 6);
+        $item = self::BuildComponentInfo(__CLASS__, '管理员管理', 'admin/adminer', 1, 'user', 4);
 
         $item['component_actions']['index'] = self::BuildActionInfo('index', '查看管理员列表', 1, 'bars', 9);
         $item['component_actions']['add'] = self::BuildActionInfo('add', '新增管理员', 1, 'user-plus');

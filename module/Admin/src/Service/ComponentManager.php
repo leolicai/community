@@ -76,6 +76,23 @@ class ComponentManager extends BaseManager
 
 
     /**
+     * @return Component[] | ArrayCollection
+     */
+    public function getMenuComponents()
+    {
+        return $this->getComponentRepository()->findBy(['componentMenu' => Component::MENU_VALID], ['componentRank' => 'DESC', 'componentName' => 'ASC']);
+    }
+
+    /**
+     * @return Action[] | ArrayCollection
+     */
+    public function getMenuActions()
+    {
+        return $this->getActionRepository()->findBy(['actionMenu' => Action::MENU_VALID], ['actionRank' => 'DESC', 'actionName' => 'ASC']);
+    }
+
+
+    /**
      * @param $actionID
      * @return null|object|Action
      */

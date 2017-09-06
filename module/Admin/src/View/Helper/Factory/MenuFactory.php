@@ -28,9 +28,9 @@ class MenuFactory implements FactoryInterface
             $items = $menuManager->getTopRightItems();
         }
 
-        //if(preg_match('/SideTreeMenu/', $requestedName)) {
-            //$items = $navManager->getSideTreeItems();
-        //}
+        if(preg_match('/SideTreeMenu/', $requestedName)) {
+            $items = $menuManager->getSideTreeItems();
+        }
 
         return new $requestedName($items);
     }

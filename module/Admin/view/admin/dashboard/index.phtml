@@ -1,8 +1,6 @@
-<h1><a href="/admin/group">Group</a></h1>
-<h1>  </h1>
-<h1><a href="/admin/adminer">Adminer</a></h1>
-<h1>  </h1>
-<h1><a href="/admin/component">Component</a></h1>
-<h1>  </h1>
-<h1><a href="/admin/acl">Acl</a></h1>
+<?php
 
+$this->adminPageTitleBar('Dashboard');
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
+
+?>

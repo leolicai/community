@@ -2,8 +2,7 @@
 use Admin\Form\AdminerForm;
 
 $this->adminPageTitleBar('成员等级更新');
-
-//$this->adminSideTreeMenu()->setActiveID($data->activeID);
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 
 $data->form->get(AdminerForm::FIELD_LEVEL)->setAttributes([

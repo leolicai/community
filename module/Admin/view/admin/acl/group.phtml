@@ -1,13 +1,11 @@
 <?php
 
-
 if (! $data->group instanceof \Admin\Entity\Group) {
     throw new \Admin\Exception\RuntimeException('Need a group object.');
 }
 
 $this->adminPageTitleBar('分组权限配置', '分组权限: ' . $data->group->getGroupName());
-
-//$this->adminSideTreeMenu()->setActiveID($activeID);
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 $this->inlineScript()->captureStart();
 echo <<<JS

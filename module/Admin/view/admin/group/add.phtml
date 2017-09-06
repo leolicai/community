@@ -2,7 +2,7 @@
 use Admin\Form\GroupForm;
 
 $this->adminPageTitleBar('新增分组');
-//$this->adminSideTreeMenu()->setActiveID($data->activeID);
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 $data->form->get(GroupForm::FIELD_NAME)->setAttributes([
     'class' => 'form-control',

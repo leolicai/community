@@ -5,8 +5,7 @@ if (!$data->adminer instanceof \Admin\Entity\Adminer) {
 }
 
 $this->adminPageTitleBar('管理员分组配置', $data->adminer->getAdminName());
-
-//$this->adminSideTreeMenu()->setActiveID($data->activeID);
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 $joined = $data->adminer->getAdminGroups();
 

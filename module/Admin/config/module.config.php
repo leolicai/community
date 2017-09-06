@@ -39,9 +39,6 @@ return [
             Service\AdminerManager::class => EntityManagerFactory::class,
             Service\GroupManager::class => EntityManagerFactory::class,
             Service\ComponentManager::class => EntityManagerFactory::class,
-
-            Service\AclGroupManager::class => EntityManagerFactory::class,
-            Service\AclAdminerManager::class => EntityManagerFactory::class,
         ],
     ],
 
@@ -67,10 +64,12 @@ return [
     'view_helpers' => [
         'factories' => [
             View\Helper\TopRightMenu::class => View\Helper\Factory\MenuFactory::class,
+            View\Helper\SideTreeMenu::class => View\Helper\Factory\MenuFactory::class,
             View\Helper\PageTitleBar::class => InvokableFactory::class,
         ],
         'aliases' => [
             'adminTopRightMenu' => View\Helper\TopRightMenu::class,
+            'adminSideTreeMenu' => View\Helper\SideTreeMenu::class,
             'adminPageTitleBar' => View\Helper\PageTitleBar::class,
         ],
     ],

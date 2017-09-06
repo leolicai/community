@@ -12,6 +12,8 @@ namespace Admin\Service\Factory;
 
 use Admin\Service\AdminerManager;
 use Admin\Service\AuthService;
+use Admin\Service\ComponentManager;
+use Admin\Service\GroupManager;
 use Admin\Service\MenuManager;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -23,9 +25,11 @@ class MenuManagerFactory implements FactoryInterface
     {
         $authService = $container->get(AuthService::class);
         $adminerManager = $container->get(AdminerManager::class);
+        $groupManager = $container->get(GroupManager::class);
+        $componentManager = $container->get(ComponentManager::class);
         $helperManager = $container->get('ViewHelperManager');
         $urlHelper = $helperManager->get('url');
 
-        return new MenuManager($urlHelper, $authService, $adminerManager);
+        return new MenuManager($urlHelper, $authService, $adminerManager, $groupManager, $componentManager);
     }
 }

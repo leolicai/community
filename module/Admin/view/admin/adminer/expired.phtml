@@ -2,7 +2,7 @@
 use Admin\Form\AdminerForm;
 
 $this->adminPageTitleBar('设置过期时间');
-//$this->adminSideTreeMenu()->setActiveID($data->activeID);
+$this->adminSideTreeMenu()->setActiveID($data->activeID);
 
 
 $data->form->get(AdminerForm::FIELD_EXPIRED)->setAttributes([

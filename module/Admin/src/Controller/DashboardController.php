@@ -15,7 +15,7 @@ class DashboardController extends AdminBaseController
 
     public function indexAction()
     {
-        //todo
+        $this->addResultData('activeID', __METHOD__);
     }
 
 }
