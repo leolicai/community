@@ -22,6 +22,8 @@ use Zend\View\HelperPluginManager;
  *
  * @method \Application\Controller\Plugin\AppLoggerPlugin appLogger()
  * @method \Application\Controller\Plugin\AppConfigPlugin appConfig()
+ * @method \Application\Controller\Plugin\AppServerPlugin appServer()
+ * @method \Application\Controller\Plugin\AppAsyncPlugin appAsync()
  */
 class AppBaseController extends AbstractActionController
 {

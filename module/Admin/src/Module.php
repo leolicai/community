@@ -51,7 +51,7 @@ class Module
         $serviceManager->get(SessionManager::class); //Init session manager
 
         $controllerName = $event->getRouteMatch()->getParam('controller', null);
-        $controllerName = str_replace('-', '', lcfirst(ucwords($controllerName, '-')));
+        $controllerName = str_replace('-', '', ucfirst(ucwords($controllerName, '-')));
 
         if($controllerName == IndexController::class) { // Allow all access
             $event->getViewModel()->setTemplate('layout/admin_simple');

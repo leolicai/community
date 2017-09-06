@@ -71,10 +71,14 @@ return [
         'factories' => [
             Controller\Plugin\AppConfigPlugin::class => Controller\Plugin\Factory\AppConfigPluginFactory::class,
             Controller\Plugin\AppLoggerPlugin::class => Controller\Plugin\Factory\AppLoggerPluginFactory::class,
+            Controller\Plugin\AppAsyncPlugin::class => InvokableFactory::class,
+            Controller\Plugin\AppServerPlugin::class => InvokableFactory::class,
         ],
         'aliases' => [
             'appConfig' => Controller\Plugin\AppConfigPlugin::class,
             'appLogger' => Controller\Plugin\AppLoggerPlugin::class,
+            'appAsync' => Controller\Plugin\AppAsyncPlugin::class,
+            'appServer' => Controller\Plugin\AppServerPlugin::class,
         ],
     ],
 
