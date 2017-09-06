@@ -443,6 +443,7 @@ class AdminerController extends AdminBaseController
 
         $this->addResultData('adminer', $adminer);
         $this->addResultData('groups', $groups);
+        $this->addResultData('activeID', __CLASS__);
     }
 
 

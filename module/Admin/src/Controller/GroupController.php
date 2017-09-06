@@ -224,6 +224,7 @@ class GroupController extends AdminBaseController
 
         $this->addResultData('adminers', $adminers);
         $this->addResultData('group', $group);
+        $this->addResultData('activeID', __CLASS__);
     }
 
 
