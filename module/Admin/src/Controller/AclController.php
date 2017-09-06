@@ -10,6 +10,7 @@
 namespace Admin\Controller;
 
 
+use Admin\Entity\Action;
 use Admin\Entity\Group;
 use Admin\Exception\InvalidArgumentException;
 use Admin\Exception\RuntimeException;
@@ -78,8 +79,6 @@ class AclController extends AdminBaseController
     {
         $this->addResultData('activeID', __CLASS__);
 
-
-
         $key = $this->params()->fromRoute('key', '');
         $keys = explode('_', $key);
         $groupID = array_shift($keys);
@@ -127,10 +126,49 @@ class AclController extends AdminBaseController
 
     /**
      * Configuration ACL for a group
+     * Only for ajax request
      */
     public function groupacledAction()
     {
-        //todo
+        $this->setResultType(self::RESPONSE_JSON);
+
+        $groupID = $this->params()->fromRoute('key', '');
+
+        $groupManager = $this->appAdminGroupManager();
+        $group = $groupManager->getGroupByID($groupID);
+
+        if (!$group instanceof Group) {
+            throw  new InvalidArgumentException('Invalid group identity');
+        }
+
+        if (Group::DEFAULT_GROUP == $group->getGroupDefault()) {
+            throw  new RuntimeException('Disable configuration default group');
+        }
+
+        $actionID = $this->params()->fromPost('action_id', '');
+
+        $componentManager = $this->appAdminComponentManager();
+        $action = $componentManager->getAction($actionID);
+
+        if (! $action instanceof Action) {
+            throw new InvalidArgumentException('Invalid action identity');
+        }
+
+        $status = $this->params()->fromPost('status', '');
+        $groupActions = $group->getGroupActions();
+        if ('allow' == $status) {
+            if (!$groupActions->contains($action)) {
+                $groupActions->add($action);
+                $group->setGroupActions($groupActions);
+                $groupManager->saveModifiedGroup($group);
+            }
+        } else {
+            if ($groupActions->contains($action)) {
+                $groupActions->removeElement($action);
+                $group->setGroupActions($groupActions);
+                $groupManager->saveModifiedGroup($group);
+            }
+        }
     }
 
     /**

@@ -25,6 +25,9 @@ use Zend\View\HelperPluginManager;
  */
 class AppBaseController extends AbstractActionController
 {
+    const RESPONSE_JSON = 'application/json';
+    const RESPONSE_HTML = 'text/html';
+    const RESPONSE_PLAIN = 'text/plain';
 
     /**
      * @var array
@@ -90,6 +93,10 @@ class AppBaseController extends AbstractActionController
         if (!isset($resultData['message'])) {
             $resultData['message'] = 'Success';
         }
+        if (!isset($resultData['type'])) {
+            $resultData['type'] = self::RESPONSE_HTML;
+        }
+
         if (!isset($resultData['data'])) {
             $resultData['data'] = new \stdClass();
         } else {
@@ -98,6 +105,24 @@ class AppBaseController extends AbstractActionController
             }
         }
         $this->resultData = $resultData;
+    }
+
+
+    /**
+     * @param string $type
+     */
+    protected function setResultType($type)
+    {
+        $this->resultData['type'] = $type;
+    }
+
+    /**
+     * @param string $text
+     */
+    protected function setResultTextData($text)
+    {
+        $this->setResultType(self::RESPONSE_PLAIN);
+        $this->resultData['content'] = $text;
     }
 
     /**

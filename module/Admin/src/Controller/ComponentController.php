@@ -67,9 +67,12 @@ class ComponentController extends AdminBaseController
 
     /**
      * Remove a component from registered components
+     * Only for ajax request
      */
     public function deleteAction()
     {
+        $this->setResultType(self::RESPONSE_JSON);
+
         $componentClass = base64_decode($this->params()->fromRoute('key', ''));
 
         $componentManager = $this->appAdminComponentManager();
@@ -85,9 +88,12 @@ class ComponentController extends AdminBaseController
 
     /**
      * Remove a action from registered actions
+     * Only for ajax request
      */
     public function removeAction()
     {
+        $this->setResultType(self::RESPONSE_JSON);
+
         $actionID = $this->params()->fromRoute('key', '');
 
         $componentManager = $this->appAdminComponentManager();
