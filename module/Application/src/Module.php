@@ -64,8 +64,15 @@ class Module
         $appConfig = $serviceManager->get('ApplicationConfig');
         $resultData['env'] = isset($appConfig['application']['env']) ? $appConfig['application']['env'] : 'development';
 
+        $_forceType = $resultData['type'];
+
+        // clean for production
+        if ('development' != $resultData['env']) {
+            unset($resultData['type']);
+        }
+
         // For some ajax request.
-        if (self::ACCEPT_TYPE_JSON == $resultData['type']) {
+        if (self::ACCEPT_TYPE_JSON == $_forceType) {
             $content = json_encode($resultData, JSON_UNESCAPED_UNICODE);
             $this->setQuickResponse($event, $content);
             $logger->debug(
@@ -77,7 +84,7 @@ class Module
         }
 
         // For some thirty api request
-        if (self::ACCEPT_TYPE_PLAIN == $resultData['type']) {
+        if (self::ACCEPT_TYPE_PLAIN == $_forceType) {
             $content = @(string)$resultData['content'];
             $this->setQuickResponse($event, $content);
             $logger->debug(
@@ -87,10 +94,6 @@ class Module
             );
             return;
         }
-
-        // clean force type
-        unset($resultData['type']);
-
 
         $request = $event->getRequest();
         if($request instanceof \Zend\Http\Request) {

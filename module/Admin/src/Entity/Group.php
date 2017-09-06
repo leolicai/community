@@ -57,6 +57,12 @@ class Group
     protected $groupName = '';
 
     /**
+     * @var string
+     * @ORM\Column(name="group_desc", type="text", length=65535)
+     */
+    protected $groupDesc = '';
+
+    /**
      * 是否是默认分组
      *
      * @var integer
@@ -87,13 +93,12 @@ class Group
      *
      * @ORM\ManyToMany(targetEntity="Admin\Entity\Action", inversedBy="actionGroups")
      * @ORM\JoinTable(
-     *     name="sys_acl_group",
-     *     joinColumns={@ORM\JoinColumn(name="acl_group_id", referencedColumnName="group_id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="acl_action_id", referencedColumnName="action_id")}
+     *     name="sys_acl",
+     *     joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="group_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="action_id", referencedColumnName="action_id")}
      * )
      */
     protected $groupActions;
-
 
     /**
      * @var Adminer[] | ArrayCollection
@@ -138,6 +143,22 @@ class Group
     public function setGroupName($groupName)
     {
         $this->groupName = $groupName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupDesc()
+    {
+        return $this->groupDesc;
+    }
+
+    /**
+     * @param string $groupDesc
+     */
+    public function setGroupDesc($groupDesc)
+    {
+        $this->groupDesc = $groupDesc;
     }
 
     /**
@@ -219,8 +240,5 @@ class Group
     {
         $this->groupActions = $groupActions;
     }
-
-
-
 
 }

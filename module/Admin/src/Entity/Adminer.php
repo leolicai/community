@@ -158,18 +158,12 @@ class Adminer
      *
      * @ORM\ManyToMany(targetEntity="Admin\Entity\Group", inversedBy="groupAdminers")
      * @ORM\JoinTable(
-     *     name="sys_relation_admin_group",
-     *     joinColumns={@ORM\JoinColumn(name="relation_admin_id", referencedColumnName="admin_id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="relation_group_id", referencedColumnName="group_id")}
+     *     name="sys_admin_group",
+     *     joinColumns={@ORM\JoinColumn(name="admin_id", referencedColumnName="admin_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="group_id")}
      * )
      */
     protected $adminGroups;
-
-    /**
-     * @var AclAdminer[] | ArrayCollection
-     * @ORM\OneToMany(targetEntity="Admin\Entity\AclAdminer", mappedBy="aclAdminer", cascade={"remove"})
-     */
-    protected $adminAcls;
 
 
     /**
@@ -259,7 +253,6 @@ class Adminer
     public function __construct()
     {
         $this->adminGroups = new ArrayCollection();
-        $this->adminAcls = new ArrayCollection();
     }
 
     /**
@@ -469,24 +462,6 @@ class Adminer
     {
         $this->adminGroups = $adminGroups;
     }
-
-    /**
-     * @return AclAdminer[]|ArrayCollection
-     */
-    public function getAdminAcls()
-    {
-        return $this->adminAcls;
-    }
-
-    /**
-     * @param AclAdminer[]|ArrayCollection $adminAcls
-     */
-    public function setAdminAcls($adminAcls)
-    {
-        $this->adminAcls = $adminAcls;
-    }
-
-
 
 
 }

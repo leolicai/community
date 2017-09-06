@@ -20,6 +20,7 @@ use Form\Validator\Factory;
 class GroupForm extends BaseForm
 {
     const FIELD_NAME = 'name';
+    const FIELD_DESC = 'desc';
 
     /**
      * @var Group|null
@@ -43,7 +44,7 @@ class GroupForm extends BaseForm
 
 
     /**
-     * 表单: 部门名称
+     * 表单: 分组名称
      */
     private function addGroupName()
     {
@@ -62,10 +63,19 @@ class GroupForm extends BaseForm
         $this->addTextElement(self::FIELD_NAME, true, $validators);
     }
 
+    /**
+     * 表单: 分组详情
+     */
+    private function addGroupDesc()
+    {
+        $this->addTextareaElement(self::FIELD_DESC, false);
+    }
+
 
     public function addElements()
     {
         $this->addGroupName();
+        $this->addGroupDesc();
     }
 
 }

@@ -28,7 +28,7 @@ if(!$data->component instanceof \Admin\Entity\Component) {
                     <td>
                         <i class="fa fa-<?php echo $obj->getActionIcon(); ?> fa-fw"></i>
                         <?php echo $obj->getActionName(); ?><br>
-                        <small><em><?php echo $this->url('admin/component', ['action' => $obj->getActionMethod()]); ?></em></small>
+                        <small><em><?php echo $this->url($data->component->getComponentRoute(), ['action' => $obj->getActionMethod()]); ?></em></small>
                     </td>
                     <td>
                         <a class="remove-action" href="<?php echo $this->url('admin/component', ['action' => 'remove', 'key' => $obj->getActionId()]); ?>">

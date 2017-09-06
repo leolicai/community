@@ -78,7 +78,6 @@ class Action
      */
     private $actionComponent;
 
-
     /**
      * @var Group[] | ArrayCollection
      *
@@ -87,17 +86,9 @@ class Action
     private $actionGroups;
 
 
-    /**
-     * @var AclAdminer[] | ArrayCollection
-     * @ORM\OneToMany(targetEntity="Admin\Entity\AclAdminer", mappedBy="aclAction", cascade={"remove"})
-     */
-    private $actionAdminerAcls;
-
-
     public function __construct()
     {
         $this->actionGroups = new ArrayCollection();
-        $this->actionAdminerAcls = new ArrayCollection();
     }
 
 
@@ -228,22 +219,5 @@ class Action
     {
         $this->actionGroups = $actionGroups;
     }
-
-    /**
-     * @return AclAdminer[]|ArrayCollection
-     */
-    public function getActionAdminerAcls()
-    {
-        return $this->actionAdminerAcls;
-    }
-
-    /**
-     * @param AclAdminer[]|ArrayCollection $actionAdminerAcls
-     */
-    public function setActionAdminerAcls($actionAdminerAcls)
-    {
-        $this->actionAdminerAcls = $actionAdminerAcls;
-    }
-
 
 }

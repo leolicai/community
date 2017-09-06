@@ -9,6 +9,10 @@ $data->form->get(GroupForm::FIELD_NAME)->setAttributes([
     'placeholder' => '输入分组名称'
 ]);
 
+$data->form->get(GroupForm::FIELD_DESC)->setAttributes([
+    'class' => 'form-control',
+]);
+
 $data->form->get(GroupForm::FIELD_SUBMIT)->setAttributes(['class'=>'btn btn-primary']);
 
 $data->form->prepare();
@@ -29,6 +33,12 @@ $data->form->prepare();
             <?php echo $this->formLabel($data->form->get(GroupForm::FIELD_NAME), '分组名称'); ?>
             <?php echo $this->formElement($data->form->get(GroupForm::FIELD_NAME)); ?>
             <?php echo $this->formElementErrors($data->form->get(GroupForm::FIELD_NAME)); ?>
+        </div>
+
+        <div class="form-group">
+            <?php echo $this->formLabel($data->form->get(GroupForm::FIELD_DESC), '分组简介'); ?>
+            <?php echo $this->formElement($data->form->get(GroupForm::FIELD_DESC)); ?>
+            <?php echo $this->formElementErrors($data->form->get(GroupForm::FIELD_DESC)); ?>
         </div>
 
         <div class="form-group">

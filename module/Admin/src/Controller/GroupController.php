@@ -64,6 +64,7 @@ class GroupController extends AdminBaseController
                 $group = new Group();
                 $group->setGroupID(Uuid::uuid1()->toString());
                 $group->setGroupName($data[GroupForm::FIELD_NAME]);
+                $group->setGroupDesc($data[GroupForm::FIELD_DESC]);
                 $group->setGroupCreated(new \DateTime());
 
                 $groupManager->saveModifiedGroup($group);
@@ -109,6 +110,7 @@ class GroupController extends AdminBaseController
                 $data = $form->getData();
 
                 $group->setGroupName($data[GroupForm::FIELD_NAME]);
+                $group->setGroupDesc($data[GroupForm::FIELD_DESC]);
 
                 $groupManager->saveModifiedGroup($group);
 

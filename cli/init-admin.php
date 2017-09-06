@@ -44,7 +44,8 @@ $entityGroup = new Group();
 $entityGroup->setGroupID(Uuid::uuid1()->toString());
 $entityGroup->setGroupDefault(Group::DEFAULT_GROUP);
 $entityGroup->setGroupStatus(Group::STATUS_VALID);
-$entityGroup->setGroupName('Default Group');
+$entityGroup->setGroupName('Default group');
+$entityGroup->setGroupDesc('Default group');
 $entityGroup->setGroupCreated(new \DateTime());
 
 $groups = $entityAdmin->getAdminGroups();

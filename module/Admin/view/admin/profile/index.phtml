@@ -19,6 +19,10 @@ $this->adminPageTitleBar('我的信息');
                 <td><?php echo $this->escapeHtml($data->adminer->getAdminName()); ?></td>
             </tr>
             <tr>
+                <td>账号级别:</td>
+                <td><?php echo $data->adminer->getAdminLevelAsString(); ?></td>
+            </tr>
+            <tr>
                 <td>账号过期时间:</td>
                 <td><?php echo $data->adminer->getAdminExpired()->format('Y-m-d'); ?></td>
             </tr>

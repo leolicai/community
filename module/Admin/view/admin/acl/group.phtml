@@ -1,41 +1,94 @@
 <?php
 
-$this->adminPageTitleBar('分组权限配置', '分组列表');
+
+if (! $data->group instanceof \Admin\Entity\Group) {
+    throw new \Admin\Exception\RuntimeException('Need a group object.');
+}
+
+$this->adminPageTitleBar('分组权限配置', '分组权限: ' . $data->group->getGroupName());
 
 //$this->adminSideTreeMenu()->setActiveID($activeID);
 
+$this->inlineScript()->captureStart();
+echo <<<JS
+
+$(function () {
+    
+    $(".action-status").change(function () {
+        var aclUrl = $("#aclApi").val();
+        var actionID = $(this).attr("name");
+        var status = $(this).val();
+        
+        $.ajax({
+            url: aclUrl,
+            async: true,
+            cache: false,
+            global: false,
+            type: 'POST',
+            data: {'action_id':actionID, 'status': status},
+            dataType: 'json',
+            complete: function(jqXHR, textStatus) {
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('删除失败, 请重新再试!');
+                location.reload(true);
+            },
+            success: function(data, textStatus, jqXHR) {
+            
+            }
+        });
+    });
+});
+
+JS;
+$this->inlineScript()->captureEnd();
+
 ?>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-hover">
-                <tr>
-                    <th>部门名称</th>
-                    <th>创建时间</th>
-                    <th>成员人数</th>
-                    <th>权限配置</th>
-                </tr>
-                <?php
-                foreach ($data->groups as $group) {
-                    if (! $group instanceof \Admin\Entity\Group) { continue; }
-                ?>
-
-                    <tr>
-                        <td height="60"><?php echo $group->getGroupName(); ?></td>
-                        <td><?php echo $group->getGroupCreated()->format('Y-m-d'); ?></td>
-                        <td><strong><?php echo $group->getGroupAdminers()->count(); ?></strong> 人</td>
-                        <?php if(\Admin\Entity\Group::DEFAULT_GROUP == $group->getGroupDefault()) { ?>
-                            <td>默认分组权限配置</td>
-                        <?php } else { ?>
-                        <td>
-                            <a href="<?php echo $this->url('admin/acl', ['action' => 'groupacl', 'key' => $group->getGroupID()]); ?>">查看分组权限配置</a>
-                        </td>
-                        <?php } ?>
-                    </tr>
-                <?php } ?>
-
-            </table>
+<div class="row">
+    <input id="aclApi" type="hidden" value="<?php echo $this->url('admin/acl', ['action' => 'acl', 'key' => $data->group->getGroupID()]); ?>">
+    <?php
+    $allowedActions = $data->group->getGroupActions();
+    foreach ($data->components as $component) {
+        if (! $component instanceof \Admin\Entity\Component) { continue; }
+    ?>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-<?php echo $component->getComponentIcon(); ?> fa-fw"></i>
+                    <?php echo $component->getComponentName(); ?>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <?php
+                        $actions = $component->getComponentActions();
+                        foreach ($actions as $action) {
+                            $actionID = $action->getActionID();
+                        ?>
+                            <tr>
+                                <td>
+                                    <i class="fa fa-<?php echo $action->getActionIcon(); ?> fa-fw"></i>
+                                    <?php echo $action->getActionName(); ?>
+                                </td>
+                                <td class="text-right">
+                                    <select name="<?php echo $actionID; ?>" class="action-status">
+                                        <?php if($allowedActions->contains($action)) { ?>
+                                            <option value="allow" selected>允许访问</option>
+                                            <option value="deny">禁止访问</option>
+                                        <?php } else { ?>
+                                            <option value="allow">允许访问</option>
+                                            <option value="deny" selected>禁止访问</option>
+                                        <?php } ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        <?php }  ?>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+    <?php } ?>
 
+</div>
 <?php echo $this->pagination()->render(); ?>
