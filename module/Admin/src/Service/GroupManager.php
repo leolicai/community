@@ -93,8 +93,8 @@ class GroupManager extends BaseManager
     /**
      * Remove a group will been remove
      *
-     * i: group with many to many relation
-     * ii: group with acl one to many relation
+     * i: group with administrator many to many relation
+     * ii: group with action many to many relation
      * iii: group self
      *
      * @param Group $group

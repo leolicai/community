@@ -104,9 +104,8 @@ class ComponentManager extends BaseManager
     /**
      * Remove a action will been remove:
      *
-     * i: action with group acl one to many relation
-     * ii: action with administrator acl one to many relation
-     * iii: action self
+     * i: action with group acl many to many relation
+     * ii: action self
      *
      * @param Action $action
      */
