@@ -103,6 +103,22 @@ class ComponentManager extends BaseManager
 
 
     /**
+     * @param $class
+     * @param $method
+     * @return null|object|Action
+     */
+    public function getActionByClassAndMethod($class, $method)
+    {
+        $component = $this->getComponentByClass($class);
+        if (!$component instanceof Component) {
+            return null;
+        }
+
+        return $this->getActionRepository()->findOneBy(['actionComponent' => $component, 'actionMethod' => $method]);
+    }
+
+
+    /**
      * Remove a component will been remove:
      *
      * i: component's all action
